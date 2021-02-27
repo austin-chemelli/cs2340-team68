@@ -1,3 +1,5 @@
+package view;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,29 +14,47 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class StartScreen extends Application {
+public class StartScreen {
 
-    @Override
-    public void start(Stage stage) throws Exception {
+    private int width;
+    private int height;
+    private Button start;
+    private Label title;
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public Button getStart() {
+        return start;
+    }
+
+    public Label getTitle() {
+        return title;
+    }
+
+    public StartScreen(int w, int h) {
+        width = w;
+        height = h;
+        start = new Button("Start Game");
+        title = new Label("Team 68 Dungeon Crawler");
+    }
+
+    public Scene getScene() {
         StackPane top = new StackPane();
         FlowPane center = new FlowPane();
         top.setPadding(new Insets(50, 0, 0, 0));
         top.setAlignment(Pos.CENTER);
         center.setAlignment(Pos.CENTER);
 
-
-        Label title = new Label("Team 68 Dungeon Crawler");
         title.setFont(new Font("Georgia", 50));
         title.setAlignment(Pos.CENTER);
         top.getChildren().add(title);
 
-        Button start = new Button("Start Game");
-        start.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("poggers");
-            }
-        });
         start.setFont(new Font("Georgia", 25));
         center.getChildren().add(start);
 
@@ -42,13 +62,8 @@ public class StartScreen extends Application {
         root.setTop(top);
         root.setCenter(center);
 
-        Scene scene = new Scene(root, 800, 450);
-        stage.setScene(scene);
-        stage.setTitle("Dungeon Crawler");
-        stage.show();
+        Scene scene = new Scene(root, width, height);
+        return scene;
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
