@@ -23,6 +23,20 @@ public class ControllerTest extends ApplicationTest {
     @Test
     public void testConfig() {
         clickOn("Start Game");
-        // verifyThat("", NodeMatchers.isNotNull());  To be implemented when config screen is created
+        verifyThat("Configuration Screen", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testDifficulty() {
+        clickOn("Start Game");
+        clickOn("Easy");
+        verifyThat("Your difficulty is easy", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testWeapon() {
+        clickOn("Start Game");
+        clickOn("Pistol");
+        verifyThat("Your weapon is a pistol", NodeMatchers.isNotNull());
     }
 }
