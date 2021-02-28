@@ -42,6 +42,10 @@ public class ConfigScreen {
         return name;
     }
 
+    public String getDifficulty() {
+        return difficulty;
+    }
+
     public ConfigScreen(int width, int height) {
         this.width = width;
         this.height = height;

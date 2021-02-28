@@ -11,10 +11,10 @@ public abstract class Room {
     private Door southDoor;
 
     public Room() {
-        eastDoor = new Door();
-        northDoor = new Door();
-        westDoor = new Door();
-        southDoor = new Door();
+        eastDoor = new Door(Direction.EAST);
+        northDoor = new Door(Direction.NORTH, false);
+        westDoor = new Door(Direction.WEST);
+        southDoor = new Door(Direction.SOUTH);
     }
 
     public void setDoor(Direction direction, Door door) {
@@ -43,4 +43,5 @@ public abstract class Room {
         }
         return null;
     }
+
 }

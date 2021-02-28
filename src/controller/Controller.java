@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import view.ConfigScreen;
+import view.GameScreen;
 import view.StartScreen;
 
 public class Controller extends Application {
@@ -42,7 +43,7 @@ public class Controller extends Application {
 
                 alert.showAndWait();
             } else {
-                initialGameScreen();
+                initialGameScreen(config.getDifficulty());
             }
         });
         Scene scene = config.getScene();
@@ -50,7 +51,10 @@ public class Controller extends Application {
         mainWindow.show();
     }
 
-    private void initialGameScreen() {
-        mainWindow.close();
+    private void initialGameScreen(String difficulty) {
+        GameScreen gameScreen = new GameScreen(width, height, difficulty);
+        Scene gameScene = gameScreen.getScene();
+        mainWindow.setScene(gameScene);
+        mainWindow.show();
     }
 }
