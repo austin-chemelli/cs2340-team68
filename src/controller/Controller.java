@@ -15,7 +15,7 @@ public class Controller extends Application {
     private final int width = 800;
     private final int height = 450;
 
-    @Override
+    @Override 
     public void start(Stage stage) throws Exception {
         mainWindow = stage;
         mainWindow.setTitle("Dungeon Crawler");
