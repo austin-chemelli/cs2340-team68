@@ -51,7 +51,7 @@ public class Controller extends Application {
         mainWindow.show();
     }
 
-    private void initialGameScreen(String difficulty) {
+    public void initialGameScreen(String difficulty) {
         GameScreen gameScreen = new GameScreen(width, height, difficulty);
         Scene gameScene = gameScreen.getScene();
         mainWindow.setScene(gameScene);
