@@ -22,8 +22,12 @@ public class ConfigScreen {
     private String weapon;
     private String name;
     private TextField nameField;
-    private Button easy, medium, hard;
-    private Button pistol, rifle, shotgun;
+    private Button easy;
+    private Button medium;
+    private Button hard;
+    private Button pistol;
+    private Button rifle;
+    private Button shotgun;
     private Button next;
 
     public int getWidth() {
@@ -98,7 +102,7 @@ public class ConfigScreen {
         difficultyText.setFont(new Font("Georgia", 25));
         HBox difficultyButtons = new HBox();
         difficultyButtons.setAlignment(Pos.CENTER);
-        difficultyButtons.setPadding(new Insets(10, 5 , 10, 5));
+        difficultyButtons.setPadding(new Insets(10, 5, 10, 5));
         easy.setOnAction(e -> {
             difficulty = "easy";
             difficultyText.setText("Your difficulty is " + difficulty);
@@ -120,7 +124,7 @@ public class ConfigScreen {
         weaponText.setFont(new Font("Georgia", 25));
         HBox weaponButtons = new HBox();
         weaponButtons.setAlignment(Pos.CENTER);
-        weaponButtons.setPadding(new Insets(10, 5 , 10, 5));
+        weaponButtons.setPadding(new Insets(10, 5, 10, 5));
         pistol.setOnAction(e -> {
             weapon = "pistol";
             weaponText.setText("Your weapon is a " + weapon);
@@ -139,7 +143,8 @@ public class ConfigScreen {
         weaponButtons.getChildren().addAll(pistol, rifle, shotgun);
 
         next.setFont(new Font("Georgia", 25));
-        items.getChildren().addAll(nameStuff, difficultyButtons, difficultyText, weaponButtons, weaponText, next);
+        items.getChildren().addAll(nameStuff, difficultyButtons, difficultyText,
+                weaponButtons, weaponText, next);
 
         BorderPane root = new BorderPane();
         root.setTop(top);

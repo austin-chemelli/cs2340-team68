@@ -3,10 +3,6 @@ import player.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.util.Comparator;
-
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class PlayerTests {
@@ -69,12 +65,10 @@ public class PlayerTests {
         assertEquals(player.getHealth(), playerMaxHealth);
         assertEquals(player.getMaxHealth(), playerMaxHealth);
 
-        // TODO:
-        //   Test if method is called when it goes under 0
-//        player.addHealth(1);
-//
-//        assertEquals(player.getHealth(), playerMaxHealth);
-//        assertEquals(player.getMaxHealth(), playerMaxHealth);
+        // player.addHealth(1);
+
+        // assertEquals(player.getHealth(), playerMaxHealth);
+        // assertEquals(player.getMaxHealth(), playerMaxHealth);
     }
 
     @Test(timeout = TIMEOUT, expected = RuntimeException.class)

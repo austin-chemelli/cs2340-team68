@@ -35,17 +35,17 @@ public class GameScreen {
 
         Label goldLabel = new Label();
         switch (difficulty) {
-            case "easy":
-                goldLabel.setText("Current gold: 200");
-                break;
-            case "medium":
-                goldLabel.setText("Current gold: 150");
-                break;
-            case "hard":
-                goldLabel.setText("Current gold: 100");
-                break;
-            default:
-                goldLabel.setText("CURRENT DIFFICULTY NOT SUPPORTED");
+        case "easy":
+            goldLabel.setText("Current gold: 200");
+            break;
+        case "medium":
+            goldLabel.setText("Current gold: 150");
+            break;
+        case "hard":
+            goldLabel.setText("Current gold: 100");
+            break;
+        default:
+            goldLabel.setText("CURRENT DIFFICULTY NOT SUPPORTED");
         }
         goldLabel.setFont(new Font("Cambria", 20));
 

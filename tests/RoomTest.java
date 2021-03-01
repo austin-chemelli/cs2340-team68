@@ -6,7 +6,8 @@ import static org.junit.Assert.assertEquals;
 
 
 public class RoomTest {
-    BasicRoom basicRoom = new BasicRoom();
+
+    private BasicRoom basicRoom = new BasicRoom();
 
     @Before
     public void setUp() {
@@ -14,7 +15,7 @@ public class RoomTest {
     }
 
     @Test
-    public void testDoorLock {
+    public void testDoorLock() {
         assertEquals(basicRoom.getRoom(Direction.EAST).isLocked(), true);
 
         assertEquals(basicRoom.getRoom(Direction.NORTH).isLocked(), false);

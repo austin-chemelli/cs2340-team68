@@ -2,8 +2,6 @@ package dungeon;
 
 import util.Direction;
 
-// TODO:
-//   Add a MoveTo(Direction direction) class
 public abstract class Room {
     private Door eastDoor;
     private Door northDoor;
@@ -19,29 +17,34 @@ public abstract class Room {
 
     public void setDoor(Direction direction, Door door) {
         switch (direction) {
-            case EAST:
-                eastDoor = door;
-            case NORTH:
-                northDoor = door;;
-            case WEST:
-                westDoor = door;;
-            case SOUTH:
-                southDoor = door;;
+        case EAST:
+            eastDoor = door;
+            break;
+        case NORTH:
+            northDoor = door;
+            break;
+        case WEST:
+            westDoor = door;
+            break;
+        default:
+            southDoor = door;
+            break;
         }
     }
 
     public Door getDoor(Direction direction) {
         switch (direction) {
-            case EAST:
-                return eastDoor;
-            case NORTH:
-                return northDoor;
-            case WEST:
-                return westDoor;
-            case SOUTH:
-                return southDoor;
+        case EAST:
+            return eastDoor;
+        case NORTH:
+            return northDoor;
+        case WEST:
+            return westDoor;
+        case SOUTH:
+            return southDoor;
+        default:
+            return null;
         }
-        return null;
     }
 
 }

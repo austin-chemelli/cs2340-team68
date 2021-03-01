@@ -1,8 +1,5 @@
 package player;
 
-// TODO:
-//   Add methods relating to items
-
 public class PlayerData {
 
     // meta data-y stuff
@@ -63,8 +60,7 @@ public class PlayerData {
 
         if (health > maxHealth) {
             health = maxHealth;
-        }
-        else if (health <= 0) {
+        } else if (health <= 0) {
             System.out.println("I'm dead!");
             // Call something
         }
@@ -76,5 +72,4 @@ public class PlayerData {
             throw new RuntimeException("Player has a negative amount of gold!");
         }
     }
-
 }

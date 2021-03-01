@@ -22,25 +22,27 @@ public class PlayerConfig {
 
     public String getDifficultyAsString() {
         switch (difficulty) {
-            case 0:
-                return "Easy";
-            case 1:
-                return "Medium";
-            case 2:
-                return "Hard";
+        case 0:
+            return "Easy";
+        case 1:
+            return "Medium";
+        case 2:
+            return "Hard";
+        default:
+            return null;
         }
-        return null;
     }
 
     public int getStartingGold() {
         switch (difficulty) {
-            case 0:
-                return STARTING_GOLD_EASY;
-            case 1:
-                return STARTING_GOLD_MEDIUM;
-            case 2:
-                return STARTING_GOLD_HARD;
+        case 0:
+            return STARTING_GOLD_EASY;
+        case 1:
+            return STARTING_GOLD_MEDIUM;
+        case 2:
+            return STARTING_GOLD_HARD;
+        default:
+            return 0;
         }
-        return 0;
     }
 }
