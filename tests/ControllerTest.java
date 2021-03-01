@@ -8,8 +8,6 @@ import static org.testfx.api.FxAssert.verifyThat;
 
 public class ControllerTest extends ApplicationTest {
 
-    Controller controller;
-
     @Override
     public void start(Stage stage) throws Exception {
         Controller controller = new Controller();
