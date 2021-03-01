@@ -44,16 +44,18 @@ public class ControllerTest extends ApplicationTest {
 
     @Test
     public void testDifficultyMoney() {
-        controller.initialGameScreen("easy");
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Easy");
+        clickOn("Next");
         verifyThat("Current gold: 200", NodeMatchers.isNotNull());
+    }
 
-        controller.initialGameScreen("medium");
-        verifyThat("Current gold: 150", NodeMatchers.isNotNull());
-
-        controller.initialGameScreen("hard");
-        verifyThat("Current gold: 100", NodeMatchers.isNotNull());
-
-        controller.initialGameScreen("nonsense");
-        verifyThat("CURRENT DIFFICULTY NOT SUPPORTED", NodeMatchers.isNotNull());
+    @Test
+    public void testNameField() {
+        clickOn("Start Game");
+        clickOn("Set");
+        verifyThat("Please enter a valid name.", NodeMatchers.isNotNull());
     }
 }

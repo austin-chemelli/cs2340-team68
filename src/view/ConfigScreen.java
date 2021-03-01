@@ -83,6 +83,7 @@ public class ConfigScreen {
         nameLabel.setFont(new Font("Georgia", 25));
         nameField.setPrefWidth(width / 2);
         nameField.setFont(new Font("Georgia", 25));
+        nameField.setId("nameField");
         Button setName = new Button("Set");
         setName.setFont(new Font("Georgia", 25));
         setName.setOnAction(e -> {
