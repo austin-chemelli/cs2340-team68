@@ -66,7 +66,7 @@ public class ConfigScreen {
     public ConfigScreen(int width, int height) {
         this.width = width;
         this.height = height;
-        difficulty = "";
+        difficulty = "Easy";
         weapon = "";
         title = new Label("Configuration Screen");
         nameField = new TextField();

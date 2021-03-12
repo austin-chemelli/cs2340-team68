@@ -3,6 +3,7 @@ package view;
 import dungeon.BasicRoom;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -60,6 +61,15 @@ public class GameScreen {
         borderPane.setAlignment(room.getDoor(Direction.EAST).getDoorButton(), Pos.CENTER);
         borderPane.setAlignment(room.getDoor(Direction.SOUTH).getDoorButton(), Pos.CENTER);
         borderPane.setAlignment(testButton, Pos.CENTER);
+
+        room.getDoor(Direction.NORTH).getDoorButton().setOnAction(event -> {
+           if (!room.getDoor(Direction.NORTH).isLocked()) {
+               Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+               alert.setTitle("Door Confirmation");
+               alert.setContentText("You opened the north door");
+               alert.showAndWait();
+           }
+        });
 
         return new Scene(borderPane, width, height);
     }

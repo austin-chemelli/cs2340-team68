@@ -30,7 +30,7 @@ public class ControllerTest extends ApplicationTest {
     public void testDifficulty() {
         clickOn("Start Game");
         clickOn("Easy");
-        verifyThat("Your difficulty is easy", NodeMatchers.isNotNull());
+        verifyThat("Your difficulty is Easy", NodeMatchers.isNotNull());
     }
 
     @Test
@@ -41,13 +41,14 @@ public class ControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testDifficultyMoney() {
+    public void testFieldDisplay() {
         clickOn("Start Game");
         clickOn("#nameField").write("Test name");
         clickOn("Set");
-        clickOn("Easy");
+        clickOn("Medium");
+        clickOn("Shotgun");
         clickOn("Next");
-        verifyThat("Current gold: 200", NodeMatchers.isNotNull());
+        verifyThat("Gold: 150\nWeapon: shotgun\nDifficulty: Medium", NodeMatchers.isNotNull());
     }
 
     @Test
@@ -55,5 +56,27 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Start Game");
         clickOn("Set");
         verifyThat("Please enter a valid name.", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testDefaultDifficulty() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        verifyThat("Gold: 200\nWeapon: pistol\nDifficulty: Easy", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testOpeningDoor() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("open north door");
+        clickOn("NORTH exit");
+        verifyThat("You opened the north door", NodeMatchers.isNotNull());
     }
 }
