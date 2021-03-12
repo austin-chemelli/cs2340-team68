@@ -53,7 +53,9 @@ public class PlayerData {
         this.startingWeapon = startingWeapon;
     }
 
-
+    public PlayerConfig getPlayerConfig() {
+        return playerConfig;
+    }
 
     public void addHealth(int amount) {
         health += amount;

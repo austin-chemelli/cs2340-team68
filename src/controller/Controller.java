@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import player.PlayerData;
 import view.ConfigScreen;
 import view.GameScreen;
 import view.StartScreen;
@@ -14,6 +15,7 @@ public class Controller extends Application {
     private Stage mainWindow;
     private final int width = 800;
     private final int height = 450;
+    public PlayerData playerData = null;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -43,7 +45,8 @@ public class Controller extends Application {
 
                 alert.showAndWait();
             } else {
-                initialGameScreen(config.getDifficulty());
+                playerData = new PlayerData(config.getName(), config.getDifficultyAsInt(), config.getWeapon());
+                initGameScreen();
             }
         });
         Scene scene = config.getScene();
@@ -51,8 +54,8 @@ public class Controller extends Application {
         mainWindow.show();
     }
 
-    public void initialGameScreen(String difficulty) {
-        GameScreen gameScreen = new GameScreen(width, height, difficulty);
+    public void initGameScreen() {
+        GameScreen gameScreen = new GameScreen(width, height, playerData);
         Scene gameScene = gameScreen.getScene();
         mainWindow.setScene(gameScene);
         mainWindow.show();

@@ -46,8 +46,21 @@ public class ConfigScreen {
         return name;
     }
 
-    public String getDifficulty() {
-        return difficulty;
+    public int getDifficultyAsInt() {
+        switch (difficulty) {
+            case "Easy":
+                return 0;
+            case "Medium":
+                return 1;
+            case "Hard":
+                return 2;
+            default:
+                return -1;
+        }
+    }
+
+    public String getWeapon() {
+        return weapon;
     }
 
     public ConfigScreen(int width, int height) {
@@ -105,17 +118,17 @@ public class ConfigScreen {
         difficultyButtons.setAlignment(Pos.CENTER);
         difficultyButtons.setPadding(new Insets(10, 5, 10, 5));
         easy.setOnAction(e -> {
-            difficulty = "easy";
+            difficulty = "Easy";
             difficultyText.setText("Your difficulty is " + difficulty);
         });
         easy.setFont(new Font("Georgia", 25));
         medium.setOnAction(e -> {
-            difficulty = "medium";
+            difficulty = "Medium";
             difficultyText.setText("Your difficulty is " + difficulty);
         });
         medium.setFont(new Font("Georgia", 25));
         hard.setOnAction(e -> {
-            difficulty = "hard";
+            difficulty = "Hard";
             difficultyText.setText("Your difficulty is " + difficulty);
         });
         hard.setFont(new Font("Georgia", 25));

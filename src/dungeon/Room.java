@@ -10,7 +10,7 @@ public abstract class Room {
 
     public Room() {
         eastDoor = new Door(Direction.EAST);
-        northDoor = new Door(Direction.NORTH, false);
+        northDoor = new Door(Direction.NORTH);
         westDoor = new Door(Direction.WEST);
         southDoor = new Door(Direction.SOUTH);
     }
@@ -45,6 +45,10 @@ public abstract class Room {
         default:
             return null;
         }
+    }
+
+    public void unlockDoor(Door door) {
+        door.setLocked(false);
     }
 
 }
