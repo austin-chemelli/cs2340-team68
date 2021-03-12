@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 import util.Item;
 
 public class Shop extends Room {
-    Item[] shopItems;
+    private Item[] shopItems;
 
     public Shop() {
         super();

@@ -63,12 +63,12 @@ public class GameScreen {
         borderPane.setAlignment(testButton, Pos.CENTER);
 
         room.getDoor(Direction.NORTH).getDoorButton().setOnAction(event -> {
-           if (!room.getDoor(Direction.NORTH).isLocked()) {
-               Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-               alert.setTitle("Door Confirmation");
-               alert.setContentText("You opened the north door");
-               alert.showAndWait();
-           }
+            if (!room.getDoor(Direction.NORTH).isLocked()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Door Confirmation");
+                alert.setContentText("You opened the north door");
+                alert.showAndWait();
+            }
         });
 
         return new Scene(borderPane, width, height);
