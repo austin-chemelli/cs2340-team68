@@ -3,6 +3,8 @@ package dungeon;
 import util.Direction;
 
 public abstract class Room {
+    public RoomType roomType = null;
+
     private Door eastDoor;
     private Door northDoor;
     private Door westDoor;

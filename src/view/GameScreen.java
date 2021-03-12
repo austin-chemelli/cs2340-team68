@@ -1,6 +1,6 @@
 package view;
 
-import dungeon.BasicRoom;
+import dungeon.StartRoom;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -16,7 +16,7 @@ public class GameScreen {
     private int width;
     private int height;
     private String difficulty;
-    private BasicRoom room;
+    private StartRoom room;
     private PlayerData playerData;
 
     public int getWidth() {
@@ -31,14 +31,14 @@ public class GameScreen {
         width = w;
         height = h;
         this.difficulty = difficulty;
-        room = new BasicRoom();
+        room = new StartRoom();
         this.playerData = playerData;
     }
 
     public Scene getScene() {
         BorderPane borderPane = new BorderPane();
         Label infoLabel = new Label();
-        infoLabel.setText("Gold: " + playerData.getPlayerConfig().getStartingGold()
+        infoLabel.setText("Gold: " + playerData.getGold()
                           + "\nWeapon: " + playerData.getStartingWeapon()
                           + "\nDifficulty: " + playerData.getPlayerConfig().getDifficultyAsString());
         infoLabel.setFont(new Font("Cambria", 20));

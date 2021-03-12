@@ -3,11 +3,12 @@ package dungeon;
 import javafx.scene.control.Alert;
 import util.Item;
 
-public class Shop extends Room {
+public class ShopRoom extends Room {
     private Item[] shopItems;
 
-    public Shop() {
+    public ShopRoom() {
         super();
+        roomType = RoomType.SHOP;
         shopItems = null;
     }
 
