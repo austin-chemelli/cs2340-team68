@@ -4,15 +4,15 @@ import util.Direction;
 
 public class Dungeon {
     // constants
-    public static final int dungeonWidth = 4; // min 3
-    public static final int dungeonHeight = 4; // min 3
+    public static final int DUNGEON_WIDTH = 4; // min 3
+    public static final int DUNGEON_HEIGHT = 4; // min 3
 
-    public static int numShops = 2;
-    public static double chanceEvent = 0.3f;
-    public static double chanceEmpty = 0.2f;
+    public static final int NUM_SHOPS = 2;
+    public static final double CHANCE_EVENT = 0.3f;
+    public static final double CHANCE_EMPTY = 0.2f;
 
 
-    private Room[][] roomGrid = new Room[dungeonHeight][dungeonWidth]; // Room[x][y]
+    private Room[][] roomGrid = new Room[DUNGEON_HEIGHT][DUNGEON_WIDTH]; // Room[x][y]
     private int posX;
     private int posY;
 
@@ -28,51 +28,59 @@ public class Dungeon {
         posY = 0;
     }
 
-    public boolean CanMove(Direction dir) {
+    public boolean canMove(Direction dir) {
         // check moving to boundaries and null tiles
         switch (dir) {
-            case EAST:
-                if (posX == dungeonWidth - 1 || roomGrid[posX + 1][posY] == null)
-                    return false;
-                break;
-            case NORTH:
-                if (posY == dungeonHeight - 1 || roomGrid[posX][posY + 1] == null)
-                    return false;
-                break;
-            case WEST:
-                if (posX == 0 || roomGrid[posX - 1][posY] == null)
-                    return false;
-                break;
-            case SOUTH:
-                if (posY == 0 || roomGrid[posX][posY - 1] == null)
-                    return false;
-                break;
+        case EAST:
+            if (posX == roomGrid.length - 1 || roomGrid[posX + 1][posY] == null) {
+                return false;
+            }
+            break;
+        case NORTH:
+            if (posY == roomGrid[0].length - 1 || roomGrid[posX][posY + 1] == null) {
+                return false;
+            }
+            break;
+        case WEST:
+            if (posX == 0 || roomGrid[posX - 1][posY] == null) {
+                return false;
+            }
+            break;
+        case SOUTH:
+            if (posY == 0 || roomGrid[posX][posY - 1] == null) {
+                return false;
+            }
+            break;
+        default:
+            return true;
         }
         return true;
     }
 
-    public void Move(Direction dir) {
+    public void move(Direction dir) {
         switch (dir) {
-            case EAST:
-                posX += 1;
-                break;
-            case NORTH:
-                posY += 1;
-                break;
-            case WEST:
-                posX -= 1;
-                break;
-            case SOUTH:
-                posY -= 1;
-                break;
+        case EAST:
+            posX += 1;
+            break;
+        case NORTH:
+            posY += 1;
+            break;
+        case WEST:
+            posX -= 1;
+            break;
+        case SOUTH:
+            posY -= 1;
+            break;
+        default:
+            break;
         }
     }
 
-    public Room GetCurrentRoom() {
+    public Room getCurrentRoom() {
         return roomGrid[posX][posY];
     }
 
-    public Room[][] GetRoomGrid() {
+    public Room[][] getRoomGrid() {
         return roomGrid;
     }
 
@@ -83,7 +91,7 @@ public class Dungeon {
         // C ? ? ?      in ?, pick numShops to be a shop
         // S C ? ?          remaining filled with combat/event/empty rooms
 
-        int numSpots = dungeonWidth * dungeonHeight;
+        int numSpots = DUNGEON_WIDTH * DUNGEON_HEIGHT;
 
         //  Filling ?
         // C D # #
@@ -92,20 +100,21 @@ public class Dungeon {
         // # # 2 3
 
         // shops
-        if (numShops >= numSpots - 6) {
+        if (NUM_SHOPS >= numSpots - 6) {
             throw new RuntimeException("Too many shops!");
         }
-        for (int i = 0; i < numShops; i++) {
-            int randSpot = (int)(Math.random() * numSpots);
-            while (!generalRoomCanPlace(randSpot))
-                randSpot = (int)(Math.random() * numSpots);
+        for (int i = 0; i < NUM_SHOPS; i++) {
+            int randSpot = (int) (Math.random() * numSpots);
+            while (!generalRoomCanPlace(randSpot)) {
+                randSpot = (int) (Math.random() * numSpots);
+            }
             // add to grid
             addToGrid(new ShopRoom(), randSpot);
             addToGrid(new ShopRoom(), randSpot);
         }
 
         // other general rooms
-        if (chanceEmpty + chanceEvent > 1) {
+        if (CHANCE_EMPTY + CHANCE_EVENT > 1) {
             throw new RuntimeException("Chances don't add up bruh");
         }
         for (int i = 0; i < numSpots; i++) {
@@ -113,16 +122,15 @@ public class Dungeon {
                 continue;
             }
             double rand = Math.random();
-            if (rand <= chanceEvent) {
+            if (rand <= CHANCE_EVENT) {
                 addToGrid(new EventRoom(), i);
                 continue;
             }
-            rand -= chanceEvent;
-            if (rand <= chanceEmpty) {
+            rand -= CHANCE_EVENT;
+            if (rand <= CHANCE_EMPTY) {
                 // empty is null
                 continue;
-            }
-            else {
+            } else {
                 addToGrid(new CombatRoom(), i);
             }
         }
@@ -131,13 +139,12 @@ public class Dungeon {
         // filling start and end parts
         addToGrid(new StartRoom(), 0);
         addToGrid(new CombatRoom(), 1);
-        addToGrid(new CombatRoom(), dungeonWidth);
+        addToGrid(new CombatRoom(), DUNGEON_WIDTH);
 
         if (Math.random() < 0.5) {
             addToGrid(new CombatRoom(), numSpots - 2);
-        }
-        else {
-            addToGrid(new CombatRoom(), numSpots - dungeonWidth - 1);
+        } else {
+            addToGrid(new CombatRoom(), numSpots - DUNGEON_WIDTH - 1);
         }
 
         addToGrid(new BossRoom(), numSpots - 1);
@@ -145,17 +152,21 @@ public class Dungeon {
 
     private boolean generalRoomCanPlace(int index) {
         // already placed
-        if (roomGrid[index % dungeonWidth][index / dungeonWidth] != null)
+        if (roomGrid[index % DUNGEON_WIDTH][index / DUNGEON_WIDTH] != null) {
             return false;
+        }
 
         // start rooms
-        if (index == 0 || index == 1 || index == dungeonWidth)
+        if (index == 0 || index == 1 || index == DUNGEON_WIDTH) {
             return false;
+        }
 
         // end rooms
-        int numSpots = dungeonWidth * dungeonHeight;
-        if (index == numSpots - 1 || index == numSpots - 2 || index == numSpots - dungeonWidth - 1)
+        int numSpots = DUNGEON_WIDTH * DUNGEON_HEIGHT;
+        if (index == numSpots - 1 || index == numSpots - 2
+                || index == numSpots - DUNGEON_WIDTH - 1) {
             return false;
+        }
 
         return true;
     }
@@ -165,6 +176,6 @@ public class Dungeon {
     }
 
     private void addToGrid(Room room, int index) {
-        addToGrid(room, index % dungeonWidth, index / dungeonWidth);
+        addToGrid(room, index % DUNGEON_WIDTH, index / DUNGEON_WIDTH);
     }
 }

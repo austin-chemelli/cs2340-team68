@@ -8,7 +8,7 @@ public class ShopRoom extends Room {
 
     public ShopRoom() {
         super();
-        roomType = RoomType.SHOP;
+        setRoomType(RoomType.SHOP);
         shopItems = null;
     }
 

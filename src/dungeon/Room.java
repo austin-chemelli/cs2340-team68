@@ -3,7 +3,7 @@ package dungeon;
 import util.Direction;
 
 public abstract class Room {
-    public RoomType roomType = null;
+    private RoomType roomType = null;
 
     private Door eastDoor;
     private Door northDoor;
@@ -53,4 +53,11 @@ public abstract class Room {
         door.setLocked(false);
     }
 
+    public RoomType getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
+    }
 }

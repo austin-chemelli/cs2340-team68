@@ -48,14 +48,14 @@ public class ConfigScreen {
 
     public int getDifficultyAsInt() {
         switch (difficulty) {
-            case "Easy":
-                return 0;
-            case "Medium":
-                return 1;
-            case "Hard":
-                return 2;
-            default:
-                return -1;
+        case "Easy":
+            return 0;
+        case "Medium":
+            return 1;
+        case "Hard":
+            return 2;
+        default:
+            return -1;
         }
     }
 

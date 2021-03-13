@@ -4,6 +4,6 @@ public class EventRoom extends Room {
 
     public EventRoom() {
         super();
-        roomType = RoomType.EVENT;
+        setRoomType(RoomType.EVENT);
     }
 }

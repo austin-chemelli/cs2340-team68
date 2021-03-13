@@ -15,7 +15,7 @@ public class Controller extends Application {
     private Stage mainWindow;
     private final int width = 800;
     private final int height = 450;
-    public PlayerData playerData = null;
+    private PlayerData playerData = null;
 
     @Override
     public void start(Stage stage) throws Exception {
