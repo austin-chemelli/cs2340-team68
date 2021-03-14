@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import player.PlayerData;
 import view.ConfigScreen;
+import view.EndScreen;
 import view.GameScreen;
 import view.StartScreen;
 
@@ -28,13 +29,13 @@ public class Controller extends Application {
     private void initStartScreen() {
         StartScreen start = new StartScreen(width, height);
         Button startButton = start.getStart();
-        startButton.setOnAction(e -> configScreen());
+        startButton.setOnAction(e -> initConfigScreen());
         Scene scene = start.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();
     }
 
-    private void configScreen() {
+    private void initConfigScreen() {
         ConfigScreen config = new ConfigScreen(width, height);
         Button next = config.getNext();
         next.setOnAction(e -> {
@@ -59,7 +60,18 @@ public class Controller extends Application {
         Dungeon dungeon = new Dungeon();
         GameScreen gameScreen = new GameScreen(width, height, playerData, dungeon);
         Scene gameScene = gameScreen.getScene();
+        Button exitButton = gameScreen.getEndButton();
+        exitButton.setOnAction(e -> initEndScreen());
         mainWindow.setScene(gameScene);
+        mainWindow.show();
+    }
+
+    public void initEndScreen() {
+        EndScreen end = new EndScreen(width, height);
+        Button restartButton = end.getRestart();
+        restartButton.setOnAction(e -> initStartScreen());
+        Scene scene = end.getScene();
+        mainWindow.setScene(scene);
         mainWindow.show();
     }
 }

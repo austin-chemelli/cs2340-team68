@@ -2,13 +2,17 @@ package view;
 
 import dungeon.Dungeon;
 import dungeon.Room;
+import dungeon.RoomType;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import util.Direction;
 import player.PlayerData;
@@ -22,6 +26,7 @@ public class GameScreen {
     private BorderPane borderPane;
     private HBox hBox;
     private Label infoLabel;
+    private Button exitButton;
 
     public int getWidth() {
         return width;
@@ -29,6 +34,10 @@ public class GameScreen {
 
     public int getHeight() {
         return height;
+    }
+
+    public Button getEndButton() {
+        return exitButton;
     }
 
     public GameScreen(int w, int h, PlayerData playerData, Dungeon d) {
@@ -39,17 +48,35 @@ public class GameScreen {
         this.playerData = playerData;
     }
 
-    public void setDoors() {
-        hBox = new HBox(infoLabel, room.getDoor(Direction.NORTH).getDoorButton());
+    public void setDoorsAndButtons() {
+        hBox = new HBox(infoLabel, room.getDoor(Direction.NORTH).getDoorButton(), exitButton);
         hBox.setSpacing(170);
+
+        String unlockButtonText = room.getRoomType() == RoomType.BOSS ? "Kill boss" : "Unlock Doors";
+        Button testButton = new Button(unlockButtonText);
+        borderPane.setCenter(testButton);
+        testButton.setOnAction(event -> {
+            if (room.getRoomType() == RoomType.BOSS) {
+                exitButton.setVisible(true);
+            } else {
+                room.unlockDoor(room.getDoor(Direction.NORTH));
+                room.unlockDoor(room.getDoor(Direction.WEST));
+                room.unlockDoor(room.getDoor(Direction.EAST));
+                room.unlockDoor(room.getDoor(Direction.SOUTH));
+            }
+        });
+        borderPane.setAlignment(testButton, Pos.CENTER);
 
         borderPane.setTop(hBox);
         borderPane.setLeft(room.getDoor(Direction.WEST).getDoorButton());
-        room.unlockDoor(room.getDoor(Direction.WEST));
         borderPane.setRight(room.getDoor(Direction.EAST).getDoorButton());
-        room.unlockDoor(room.getDoor(Direction.EAST));
         borderPane.setBottom(room.getDoor(Direction.SOUTH).getDoorButton());
-        room.unlockDoor(room.getDoor(Direction.SOUTH));
+        if (room.getRoomType() == RoomType.BOSS) {
+            room.unlockDoor(room.getDoor(Direction.NORTH));
+            room.unlockDoor(room.getDoor(Direction.WEST));
+            room.unlockDoor(room.getDoor(Direction.EAST));
+            room.unlockDoor(room.getDoor(Direction.SOUTH));
+        }
 
         //borderPane.setAlignment(hBox, Pos.CENTER);
         borderPane.setAlignment(room.getDoor(Direction.NORTH).getDoorButton(), Pos.CENTER);
@@ -96,7 +123,7 @@ public class GameScreen {
             alert.setContentText("You opened the " + d.toString().toLowerCase()
                     + " door!\n" + room.toString());
             alert.showAndWait();
-            setDoors();
+            setDoorsAndButtons();
         }
     }
 
@@ -108,11 +135,14 @@ public class GameScreen {
                 + playerData.getPlayerConfig().getDifficultyAsString());
         infoLabel.setFont(new Font("Cambria", 20));
 
-        Button testButton = new Button("open north door");
-        borderPane.setCenter(testButton);
-        testButton.setOnAction(event -> room.unlockDoor(room.getDoor(Direction.NORTH)));
-        borderPane.setAlignment(testButton, Pos.CENTER);
-        setDoors();
+        Rectangle exitButtonRect = new Rectangle(75, 75, Color.YELLOW);
+
+        exitButton = new Button("Exit", exitButtonRect);
+        exitButton.setTextFill(Color.BLACK);
+        exitButton.setContentDisplay(ContentDisplay.CENTER);
+        exitButton.setVisible(false);
+
+        setDoorsAndButtons();
 
         return new Scene(borderPane, width, height);
     }
