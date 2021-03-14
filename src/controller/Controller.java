@@ -31,6 +31,7 @@ public class Controller extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        System.out.println(dungeon);
         mainWindow = stage;
         mainWindow.setTitle("Dungeon Crawler");
         initStartScreen();

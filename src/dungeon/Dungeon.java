@@ -178,4 +178,19 @@ public class Dungeon {
     private void addToGrid(Room room, int index) {
         addToGrid(room, index % DUNGEON_WIDTH, index / DUNGEON_WIDTH);
     }
+
+    public String toString() {
+        String ret = "";
+        for (int i = DUNGEON_HEIGHT - 1; i >= 0; i--) {
+            for (int j = 0; j < DUNGEON_WIDTH; j++) {
+                if (roomGrid[j][i] == null) {
+                    ret += "NULL ";
+                } else {
+                    ret += roomGrid[j][i].getRoomType().name() + " ";
+                }
+            }
+            ret += "\n";
+        }
+        return ret;
+    }
 }
