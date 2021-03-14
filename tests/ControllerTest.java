@@ -21,8 +21,9 @@ public class ControllerTest extends ApplicationTest {
                     roomGrid[i][j] = new StartRoom();
                 } else if (i == 3 && j == 3) {
                     roomGrid[i][j] = new BossRoom();
+                } else {
+                    roomGrid[i][j] = new CombatRoom();
                 }
-                roomGrid[i][j] = new CombatRoom();
             }
         }
         Controller controller = new Controller(roomGrid);
@@ -94,4 +95,46 @@ public class ControllerTest extends ApplicationTest {
         clickOn("NORTH exit");
         verifyThat("Confirmation", NodeMatchers.isNotNull());
     }
+
+    @Test
+    public void testExitAppears() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        for (int i = 0; i < 6; i++) {
+            clickOn("Unlock Doors");
+            if (i < 3) {
+                clickOn("EAST exit");
+            } else {
+                clickOn("NORTH exit");
+            }
+            clickOn("OK");
+        }
+        clickOn("Kill boss");
+        verifyThat("Exit", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testEndScreen() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        for (int i = 0; i < 6; i++) {
+            clickOn("Unlock Doors");
+            if (i < 3) {
+                clickOn("EAST exit");
+            } else {
+                clickOn("NORTH exit");
+            }
+            clickOn("OK");
+        }
+        clickOn("Kill boss");
+        clickOn("Exit");
+        verifyThat("Congrats! You won.", NodeMatchers.isNotNull());
+    }
+
 }
