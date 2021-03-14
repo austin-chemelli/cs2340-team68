@@ -1,6 +1,7 @@
 package controller;
 
 import dungeon.Dungeon;
+import dungeon.Room;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,6 +19,15 @@ public class Controller extends Application {
     private final int width = 800;
     private final int height = 450;
     private PlayerData playerData = null;
+    private Dungeon dungeon;
+
+    public Controller() {
+        dungeon = new Dungeon();
+    }
+
+    public Controller(Room[][] grid) {
+        dungeon = new Dungeon(grid);
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -57,7 +67,6 @@ public class Controller extends Application {
     }
 
     public void initGameScreen() {
-        Dungeon dungeon = new Dungeon();
         GameScreen gameScreen = new GameScreen(width, height, playerData, dungeon);
         Scene gameScene = gameScreen.getScene();
         Button exitButton = gameScreen.getEndButton();

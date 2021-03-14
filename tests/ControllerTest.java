@@ -1,4 +1,8 @@
 import controller.Controller;
+import dungeon.BossRoom;
+import dungeon.CombatRoom;
+import dungeon.Room;
+import dungeon.StartRoom;
 import javafx.stage.Stage;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
@@ -10,7 +14,18 @@ public class ControllerTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Controller controller = new Controller();
+        Room[][] roomGrid = new Room[4][4];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (i == 0 && j == 0) {
+                    roomGrid[i][j] = new StartRoom();
+                } else if (i == 3 && j == 3) {
+                    roomGrid[i][j] = new BossRoom();
+                }
+                roomGrid[i][j] = new CombatRoom();
+            }
+        }
+        Controller controller = new Controller(roomGrid);
         controller.start(stage);
     }
 
@@ -75,8 +90,8 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Set");
         clickOn("Pistol");
         clickOn("Next");
-        clickOn("open north door");
+        clickOn("Unlock Doors");
         clickOn("NORTH exit");
-        verifyThat("You opened the north door", NodeMatchers.isNotNull());
+        verifyThat("Confirmation", NodeMatchers.isNotNull());
     }
 }
