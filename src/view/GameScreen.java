@@ -52,7 +52,8 @@ public class GameScreen {
         hBox = new HBox(infoLabel, room.getDoor(Direction.NORTH).getDoorButton(), exitButton);
         hBox.setSpacing(170);
 
-        String unlockButtonText = room.getRoomType() == RoomType.BOSS ? "Kill boss" : "Unlock Doors";
+        String unlockButtonText = room.getRoomType() == RoomType.BOSS
+                ? "Kill boss" : "Unlock Doors";
         Button testButton = new Button(unlockButtonText);
         borderPane.setCenter(testButton);
         testButton.setOnAction(event -> {
