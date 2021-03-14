@@ -1,5 +1,6 @@
 package controller;
 
+import dungeon.Dungeon;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -42,10 +43,10 @@ public class Controller extends Application {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Name Error");
                 alert.setContentText("Please enter a valid name.");
-
                 alert.showAndWait();
             } else {
-                playerData = new PlayerData(config.getName(), config.getDifficultyAsInt(), config.getWeapon());
+                playerData = new PlayerData(config.getName(),
+                        config.getDifficultyAsInt(), config.getWeapon());
                 initGameScreen();
             }
         });
@@ -55,7 +56,8 @@ public class Controller extends Application {
     }
 
     public void initGameScreen() {
-        GameScreen gameScreen = new GameScreen(width, height, playerData);
+        Dungeon dungeon = new Dungeon();
+        GameScreen gameScreen = new GameScreen(width, height, playerData, dungeon);
         Scene gameScene = gameScreen.getScene();
         mainWindow.setScene(gameScene);
         mainWindow.show();

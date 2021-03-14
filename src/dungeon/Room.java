@@ -60,4 +60,8 @@ public abstract class Room {
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
+
+    public String toString() {
+        return "Currently in a " + getRoomType().toString().toLowerCase() + " room";
+    }
 }
