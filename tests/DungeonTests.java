@@ -2,19 +2,20 @@ import dungeon.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.testfx.framework.junit.ApplicationTest;
 import util.Direction;
 
 import static org.junit.Assert.*;
 
-public class DungeonTests {
-    private static final int TIMEOUT = 500;
+public class DungeonTests extends ApplicationTest {
+    private static final int TIMEOUT = 2000;
 
     @Before
     public void setUp() {
 
     }
 
-    @Test(timeout = TIMEOUT)
+    @Test
     public void testDungeonGeneration() {
         Dungeon dungeon = new Dungeon();
         Room[][] roomGrid = dungeon.getRoomGrid();
