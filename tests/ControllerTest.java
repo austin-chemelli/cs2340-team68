@@ -97,6 +97,41 @@ public class ControllerTest extends ApplicationTest {
     }
 
     @Test
+    public void testDeadEnd() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("Unlock Doors");
+        clickOn("SOUTH exit");
+        verifyThat("This door leads to nothing!", NodeMatchers.isNotNull());
+        clickOn("OK");
+        clickOn("WEST exit");
+        verifyThat("This door leads to nothing!", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testReturnToRoom() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("Unlock Doors");
+        clickOn("NORTH exit");
+        clickOn("OK");
+        clickOn("Unlock Doors");
+        clickOn("SOUTH exit");
+        clickOn("OK");
+        clickOn("WEST exit");
+        verifyThat("This door leads to nothing!", NodeMatchers.isNotNull());
+        clickOn("OK");
+        clickOn("SOUTH exit");
+        verifyThat("This door leads to nothing!", NodeMatchers.isNotNull());
+    }
+
+    @Test
     public void testExitAppears() {
         clickOn("Start Game");
         clickOn("#nameField").write("Test name");
@@ -136,5 +171,4 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Exit");
         verifyThat("Congrats! You won.", NodeMatchers.isNotNull());
     }
-
 }
