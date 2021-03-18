@@ -10,12 +10,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class CombatTest {
-    //  TODO
-    // test initializing combat
-    // test damage effect (single, multiple)
-    // test block effect
 
     private static final int TIMEOUT = 500;
     private Random random;
@@ -36,9 +33,34 @@ public class CombatTest {
 
         CombatController combatController = new CombatController(player, enemies);
 
-        ArrayList<Action> enemyIntents = combatController.getEnemyIntents();
 
-        assertEquals(enemyIntents.size(), 3);
+        ArrayList<Enemy> origEnemies = combatController.getEnemies();
+        assertEquals(3, enemies.size());
+
+        ArrayList<Action> enemyIntents = combatController.getEnemyIntents();
+        assertEquals(3, enemyIntents.size());
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testEnemyRemoved() {
+        Player player = new Player("John", 1, "");
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        enemies.add(new Enemy("Slime"));
+        enemies.add(new Enemy("Slime"));
+        enemies.add(new Enemy("Slime"));
+
+        CombatController combatController = new CombatController(player, enemies);
+
+        ArrayList<Enemy> origEnemies = combatController.getEnemies();
+        assertEquals(3, origEnemies.size());
+
+        IEffect damageEffect = new DamageEffect(999999);
+        combatController.applyAction(new Action(enemies.get(0), damageEffect));
+
+        ArrayList<Enemy> newEnemies = combatController.getEnemies();
+        assertEquals(2, newEnemies.size());
+
+        assertFalse(player.getIsDead());
     }
 
     @Test(timeout = TIMEOUT)
@@ -60,7 +82,7 @@ public class CombatTest {
 
         combatController.applyAction(new Action(player, damageEffect));
 
-        assertEquals(player.getHealth() + damageAmount, origHealth);
+        assertEquals(origHealth, player.getHealth() + damageAmount);
 
 
         // multi target
@@ -70,9 +92,9 @@ public class CombatTest {
 
         combatController.applyAction(new Action(new ArrayList<>(enemies), damageEffect));
 
-        assertEquals(enemies.get(0).getHealth() + damageAmount, slimeOrig0);
-        assertEquals(enemies.get(1).getHealth() + damageAmount, slimeOrig1);
-        assertEquals(enemies.get(2).getHealth() + damageAmount, slimeOrig2);
+        assertEquals(slimeOrig0, enemies.get(0).getHealth() + damageAmount);
+        assertEquals(slimeOrig1, enemies.get(1).getHealth() + damageAmount);
+        assertEquals(slimeOrig2, enemies.get(2).getHealth() + damageAmount);
     }
 
     @Test(timeout = TIMEOUT)
@@ -91,7 +113,7 @@ public class CombatTest {
 
         combatController.applyAction(new Action(player, blockEffect));
 
-        assertEquals(player.getBlock(), blockAmount);
+        assertEquals(blockAmount, player.getBlock());
 
 
         // multi target
@@ -101,8 +123,8 @@ public class CombatTest {
 
         combatController.applyAction(new Action(new ArrayList<>(enemies), blockEffect));
 
-        assertEquals(enemies.get(0).getBlock(), blockAmount);
-        assertEquals(enemies.get(1).getBlock(), blockAmount);
-        assertEquals(enemies.get(2).getBlock(), blockAmount);
+        assertEquals(blockAmount, enemies.get(0).getBlock());
+        assertEquals(blockAmount, enemies.get(1).getBlock());
+        assertEquals(blockAmount, enemies.get(2).getBlock());
     }
 }

@@ -22,7 +22,8 @@ public class Enemy extends Entity {
     }
 
     public void die() {
-        System.out.println(name + " died!");
+        super.die();
+        System.out.println(name + " died! " + getIsDead());
     }
 
     public Action getAction() {

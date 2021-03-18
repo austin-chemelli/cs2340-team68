@@ -59,6 +59,7 @@ public class Player extends Entity {
     }
 
     public void die() {
+        super.die();
         System.out.println("Player died!");
     }
 

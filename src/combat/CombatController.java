@@ -41,16 +41,23 @@ public class CombatController {
             // endCombat(won=false);
         }
 
+        ArrayList<Enemy> newEnemies = new ArrayList<>();
         for (Enemy e : enemies) {
-            if (e.getIsDead()) {
-                enemies.remove(e);
-                if (enemies.size() == 0) {
-                    // endCombat(won=true);
-                }
+            if (!e.getIsDead()) {
+                newEnemies.add(e);
             }
+        }
+        enemies = newEnemies;
+
+        if (enemies.size() == 0) {
+            // endCombat(won=true);
         }
     }
 
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
 
     public ArrayList<Action> getEnemyIntents() {
         return enemyIntents;

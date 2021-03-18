@@ -11,8 +11,8 @@ public class DamageEffect implements IEffect {
         this.amount = amount;
     }
 
-    public void applyEffect(ArrayList<Entity> enemies) {
-        for (Entity e : enemies) {
+    public void applyEffect(ArrayList<Entity> entities) {
+        for (Entity e : entities) {
             e.takeDamage(amount);
         }
     }

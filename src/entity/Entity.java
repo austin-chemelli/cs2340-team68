@@ -25,7 +25,6 @@ public abstract class Entity {
         if (health > maxHealth) {
             health = maxHealth;
         } else if (health <= 0) {
-            System.out.println("I'm dead!");
             die();
         }
     }
