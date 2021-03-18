@@ -15,14 +15,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import util.Direction;
-import player.PlayerData;
+import entity.player.Player;
 
 public class GameScreen {
     private int width;
     private int height;
     private Room room;
     private Dungeon dungeon;
-    private PlayerData playerData;
+    private Player player;
     private BorderPane borderPane;
     private HBox hBox;
     private Label infoLabel;
@@ -40,12 +40,12 @@ public class GameScreen {
         return exitButton;
     }
 
-    public GameScreen(int w, int h, PlayerData playerData, Dungeon d) {
+    public GameScreen(int w, int h, Player player, Dungeon d) {
         width = w;
         height = h;
         dungeon = d;
         room = d.getCurrentRoom();
-        this.playerData = playerData;
+        this.player = player;
     }
 
     public void setDoorsAndButtons() {
@@ -131,9 +131,9 @@ public class GameScreen {
     public Scene getScene() {
         borderPane = new BorderPane();
         infoLabel = new Label();
-        infoLabel.setText("Gold: " + playerData.getGold()
-                + "\nWeapon: " + playerData.getStartingWeapon() + "\nDifficulty: "
-                + playerData.getPlayerConfig().getDifficultyAsString());
+        infoLabel.setText("Gold: " + player.getGold()
+                + "\nWeapon: " + player.getStartingWeapon() + "\nDifficulty: "
+                + player.getPlayerConfig().getDifficultyAsString());
         infoLabel.setFont(new Font("Cambria", 20));
 
         Rectangle exitButtonRect = new Rectangle(75, 75, Color.YELLOW);

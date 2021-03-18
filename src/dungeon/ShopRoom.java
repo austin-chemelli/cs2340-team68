@@ -19,7 +19,7 @@ public class ShopRoom extends Room {
     public Item buyItem(Item item, int currentGold) {
         if (currentGold >= item.getPrice()) {
             //implement removing item from shop
-            //implement deducting gold from player after purchase successful
+            //implement deducting gold from entity.player after purchase successful
             return item;
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);

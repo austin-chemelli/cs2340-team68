@@ -1,4 +1,4 @@
-import player.*;
+import entity.player.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,6 +6,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class PlayerTests {
+    //  TODO
+    // test block
+    // change weapon test to starting deck test
+
     private static final int TIMEOUT = 500;
 
     @Before
@@ -19,61 +23,61 @@ public class PlayerTests {
         String name = "Johnny Test";
         String weapon = "Testistious";
 
-        PlayerData playerEasy = new PlayerData(name, 0, weapon);
+        Player playerEasy = new Player(name, 0, weapon);
 
         assertEquals(playerEasy.getName(), name);
         assertEquals(playerEasy.getStartingWeapon(), weapon);
-        assertEquals(playerEasy.getHealth(), PlayerData.BASE_HEALTH);
+        assertEquals(playerEasy.getHealth(), Player.BASE_HEALTH);
 
         assertEquals(playerEasy.getGold(), PlayerConfig.STARTING_GOLD_EASY);
 
 
-        PlayerData playerMedium = new PlayerData(name, 1, weapon);
+        Player playerMedium = new Player(name, 1, weapon);
 
         assertEquals(playerMedium.getGold(), PlayerConfig.STARTING_GOLD_MEDIUM);
 
 
-        PlayerData playerHard = new PlayerData(name, 2, weapon);
+        Player playerHard = new Player(name, 2, weapon);
 
         assertEquals(playerHard.getGold(), PlayerConfig.STARTING_GOLD_HARD);
     }
 
     @Test(timeout = TIMEOUT)
     public void testAddingHealth() {
-        PlayerData player = new PlayerData("Test Name", 0, "Test Weapon");
+        Player player = new Player("Test Name", 0, "Test Weapon");
 
-        int playerMaxHealth = PlayerData.BASE_HEALTH;
+        int playerMaxHealth = Player.BASE_HEALTH;
 
         assertEquals(player.getHealth(), playerMaxHealth);
         assertEquals(player.getMaxHealth(), playerMaxHealth);
 
         // Losing health
-        player.addHealth(-1);
+        player.gainHealth(-1);
 
         assertEquals(player.getHealth(), playerMaxHealth - 1);
         assertEquals(player.getMaxHealth(), playerMaxHealth);
 
         // Gaining health
-        player.addHealth(1);
+        player.gainHealth(1);
 
         assertEquals(player.getHealth(), playerMaxHealth);
         assertEquals(player.getMaxHealth(), playerMaxHealth);
 
         // Going over limit
-        player.addHealth(1);
+        player.gainHealth(1);
 
         assertEquals(player.getHealth(), playerMaxHealth);
         assertEquals(player.getMaxHealth(), playerMaxHealth);
 
-        // player.addHealth(1);
+        // entity.player.addHealth(1);
 
-        // assertEquals(player.getHealth(), playerMaxHealth);
-        // assertEquals(player.getMaxHealth(), playerMaxHealth);
+        // assertEquals(entity.player.getHealth(), playerMaxHealth);
+        // assertEquals(entity.player.getMaxHealth(), playerMaxHealth);
     }
 
     @Test(timeout = TIMEOUT, expected = RuntimeException.class)
     public void testAddingGold() {
-        PlayerData player = new PlayerData("Test Name", 0, "Test Weapon");
+        Player player = new Player("Test Name", 0, "Test Weapon");
 
         int startingGold = PlayerConfig.STARTING_GOLD_EASY;
 

@@ -1,4 +1,4 @@
-package player;
+package entity.player;
 
 public class PlayerConfig {
     private int difficulty; // 0 - Easy, 1 - Medium, 2 - Hard

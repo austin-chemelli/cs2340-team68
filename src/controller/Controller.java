@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import player.PlayerData;
+import entity.player.Player;
 import view.ConfigScreen;
 import view.EndScreen;
 import view.GameScreen;
@@ -18,7 +18,7 @@ public class Controller extends Application {
     private Stage mainWindow;
     private final int width = 800;
     private final int height = 450;
-    private PlayerData playerData = null;
+    private Player player = null;
     private Dungeon dungeon;
 
     public Controller() {
@@ -57,7 +57,7 @@ public class Controller extends Application {
                 alert.setContentText("Please enter a valid name.");
                 alert.showAndWait();
             } else {
-                playerData = new PlayerData(config.getName(),
+                player = new Player(config.getName(),
                         config.getDifficultyAsInt(), config.getWeapon());
                 initGameScreen();
             }
@@ -68,7 +68,7 @@ public class Controller extends Application {
     }
 
     public void initGameScreen() {
-        GameScreen gameScreen = new GameScreen(width, height, playerData, dungeon);
+        GameScreen gameScreen = new GameScreen(width, height, player, dungeon);
         Scene gameScene = gameScreen.getScene();
         Button exitButton = gameScreen.getEndButton();
         exitButton.setOnAction(e -> initEndScreen());
