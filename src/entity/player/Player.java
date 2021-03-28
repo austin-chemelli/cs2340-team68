@@ -46,7 +46,7 @@ public class Player extends Entity {
         deck.add(library.get("Defend"));
         deck.add(library.get("Swipe"));
         deck.add(library.get("Swipe"));
-//        deck.add(library.get("Search"));
+        //deck.add(library.get("Search"));
 
         this.startingWeapon = startingWeapon;
     }

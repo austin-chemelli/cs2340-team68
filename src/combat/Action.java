@@ -1,10 +1,12 @@
 package combat;
 
-import combat.effect.DamageEffect;
-import combat.effect.IEffect;
-import entity.Entity;
+/*import combat.effect.DamageEffect;
 import entity.enemy.Enemy;
 import javafx.scene.effect.Effect;
+ */
+import combat.effect.IEffect;
+import entity.Entity;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;

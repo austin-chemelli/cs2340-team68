@@ -1,8 +1,12 @@
 package view;
 
+import combat.Action;
+import combat.CombatController;
+import dungeon.CombatRoom;
 import dungeon.Dungeon;
 import dungeon.Room;
 import dungeon.RoomType;
+import entity.enemy.Enemy;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -17,6 +21,8 @@ import javafx.scene.text.Font;
 import util.Direction;
 import entity.player.Player;
 
+import java.util.ArrayList;
+
 public class GameScreen {
     private int width;
     private int height;
@@ -27,6 +33,7 @@ public class GameScreen {
     private HBox hBox;
     private Label infoLabel;
     private Button exitButton;
+    private CombatController currController;
 
     public int getWidth() {
         return width;
@@ -110,6 +117,35 @@ public class GameScreen {
         });
     }
 
+    //not finished yet
+    public void reset() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Game Over");
+        alert.setContentText("You have died, restarting from last fight");
+        alert.showAndWait();
+        ((CombatRoom) room).setController(currController);
+        startCombat();
+    }
+
+    //once player confirms action
+    public void playRound(Action playerAction) {
+        CombatController controller = ((CombatRoom) room).getController();
+        controller.endRound(playerAction);
+        if (player.getIsDead()) {
+            reset();
+        } else if ((controller.isCombatEnd())) {
+            //remove ui and announce victory to player, unlock doors
+        } else {
+            controller.startRound();
+            //update ui enemies and deck, display results of previous round
+        }
+    }
+
+    public void startCombat() {
+        ((CombatRoom) room).getController();
+        //to implement: load in all initial ui and sprites given the controller
+    }
+
     public void changeRoom(Direction d) {
         if (!dungeon.canMove(d)) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -125,6 +161,20 @@ public class GameScreen {
                     + " door!\n" + room.toString());
             alert.showAndWait();
             setDoorsAndButtons();
+            if (room.getRoomType() == RoomType.COMBAT) {
+                if (((CombatRoom) room).getController() == null) {
+                    ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+                    int enemyNum = (int) (Math.random() * 3 + 1);
+                    for (int i = 0; i < enemyNum; i++) {
+                        enemyList.add(new Enemy("Slime"));
+                    }
+                    ((CombatRoom) room).setController(new CombatController(player, enemyList));
+                }
+                currController = ((CombatRoom) room).getController();
+                if (!((CombatRoom) room).getController().isCombatEnd()) {
+                    startCombat();
+                }
+            }
         }
     }
 

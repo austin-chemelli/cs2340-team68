@@ -27,7 +27,7 @@ public class Enemy extends Entity {
     }
 
     public Action getAction() {
-        return behavior.getAction(this, null );
+        return behavior.getAction(this, null);
     }
 
     public int getHealth() {

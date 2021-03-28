@@ -4,16 +4,18 @@ import entity.enemy.Enemy;
 import entity.player.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 
 public class CombatController {
     private Player player;
     private ArrayList<Enemy> enemies;
     private ArrayList<Action> enemyIntents;
+    private boolean combatEnd;
 
     public CombatController(Player player, ArrayList<Enemy> enemies) {
         this.player = player;
         this.enemies = new ArrayList<Enemy>(enemies);
+        combatEnd = false;
         startRound();
     }
 
@@ -27,9 +29,12 @@ public class CombatController {
         }
     }
 
-    public void endRound() {
+    public void endRound(Action playerAction) {
+        applyAction(playerAction);
         for (Action a : enemyIntents) {
-            applyAction(a);
+            if (!combatEnd) {
+                applyAction(a);
+            }
         }
         //startRound(); not sure if call here or some higher level manager
     }
@@ -38,7 +43,8 @@ public class CombatController {
         action.applyEffect();
 
         if (player.getIsDead()) {
-            // endCombat(won=false);
+            combatEnd = true;
+            return;
         }
 
         ArrayList<Enemy> newEnemies = new ArrayList<>();
@@ -50,7 +56,7 @@ public class CombatController {
         enemies = newEnemies;
 
         if (enemies.size() == 0) {
-            // endCombat(won=true);
+            combatEnd = true;
         }
     }
 
@@ -61,5 +67,9 @@ public class CombatController {
 
     public ArrayList<Action> getEnemyIntents() {
         return enemyIntents;
+    }
+
+    public boolean isCombatEnd() {
+        return combatEnd;
     }
 }

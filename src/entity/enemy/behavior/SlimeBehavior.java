@@ -12,11 +12,11 @@ public class SlimeBehavior implements IEnemyBehavior {
         IEffect effect;
         if (Math.random() < 0.5f) {
             // random between 5 and 7
-            int rand = (int)(Math.random() * 3) + 5;
+            int rand = (int) (Math.random() * 3) + 5;
             effect = new DamageEffect(rand);
         } else {
             // random between 4 and 6
-            int rand = (int)(Math.random() * 3) + 4;
+            int rand = (int) (Math.random() * 3) + 4;
             effect = new BlockEffect(rand);
         }
         return new Action(player, effect);
