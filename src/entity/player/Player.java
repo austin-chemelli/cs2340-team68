@@ -3,6 +3,7 @@ package entity.player;
 import combat.Card;
 import combat.CardLibrary;
 import entity.Entity;
+import entity.enemy.Enemy;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public class Player extends Entity {
     private PlayerConfig playerConfig;
 
     public Player(String name, int difficulty, String startingWeapon) {
+        Enemy.setPlayer(this);
         this.name = name;
         playerConfig = new PlayerConfig();
         playerConfig.setDifficulty(difficulty);
@@ -36,16 +38,16 @@ public class Player extends Entity {
         CardLibrary library = new CardLibrary();
         deck.add(library.get("Strike"));
         deck.add(library.get("Strike"));
-        deck.add(library.get("Strike"));
-        deck.add(library.get("Strike"));
-        deck.add(library.get("Strike"));
+        //deck.add(library.get("Strike"));
+        //deck.add(library.get("Strike"));
+        //deck.add(library.get("Strike"));
         deck.add(library.get("Defend"));
         deck.add(library.get("Defend"));
-        deck.add(library.get("Defend"));
-        deck.add(library.get("Defend"));
-        deck.add(library.get("Defend"));
+        //deck.add(library.get("Defend"));
+        //deck.add(library.get("Defend"));
+        //deck.add(library.get("Defend"));
         deck.add(library.get("Swipe"));
-        deck.add(library.get("Swipe"));
+        //deck.add(library.get("Swipe"));
         //deck.add(library.get("Search"));
 
         this.startingWeapon = startingWeapon;
@@ -80,4 +82,7 @@ public class Player extends Entity {
         return playerConfig;
     }
 
+    public ArrayList<Card> getDeck() {
+        return deck;
+    }
 }

@@ -1,11 +1,13 @@
 package view;
 
 import combat.Action;
+import combat.Card;
 import combat.CombatController;
 import dungeon.CombatRoom;
 import dungeon.Dungeon;
 import dungeon.Room;
 import dungeon.RoomType;
+import entity.Entity;
 import entity.enemy.Enemy;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,7 +15,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -59,32 +64,16 @@ public class GameScreen {
         hBox = new HBox(infoLabel, room.getDoor(Direction.NORTH).getDoorButton(), exitButton);
         hBox.setSpacing(170);
 
-        String unlockButtonText = room.getRoomType() == RoomType.BOSS
-                ? "Kill boss" : "Unlock Doors";
-        Button testButton = new Button(unlockButtonText);
-        borderPane.setCenter(testButton);
-        testButton.setOnAction(event -> {
-            if (room.getRoomType() == RoomType.BOSS) {
-                exitButton.setVisible(true);
-            } else {
-                room.unlockDoor(room.getDoor(Direction.NORTH));
-                room.unlockDoor(room.getDoor(Direction.WEST));
-                room.unlockDoor(room.getDoor(Direction.EAST));
-                room.unlockDoor(room.getDoor(Direction.SOUTH));
-            }
-        });
-        borderPane.setAlignment(testButton, Pos.CENTER);
+        room.unlockDoor(room.getDoor(Direction.NORTH));
+        room.unlockDoor(room.getDoor(Direction.WEST));
+        room.unlockDoor(room.getDoor(Direction.EAST));
+        room.unlockDoor(room.getDoor(Direction.SOUTH));
+
 
         borderPane.setTop(hBox);
         borderPane.setLeft(room.getDoor(Direction.WEST).getDoorButton());
         borderPane.setRight(room.getDoor(Direction.EAST).getDoorButton());
         borderPane.setBottom(room.getDoor(Direction.SOUTH).getDoorButton());
-        if (room.getRoomType() == RoomType.BOSS) {
-            room.unlockDoor(room.getDoor(Direction.NORTH));
-            room.unlockDoor(room.getDoor(Direction.WEST));
-            room.unlockDoor(room.getDoor(Direction.EAST));
-            room.unlockDoor(room.getDoor(Direction.SOUTH));
-        }
 
         //borderPane.setAlignment(hBox, Pos.CENTER);
         borderPane.setAlignment(room.getDoor(Direction.NORTH).getDoorButton(), Pos.CENTER);
@@ -134,6 +123,7 @@ public class GameScreen {
         if (player.getIsDead()) {
             reset();
         } else if ((controller.isCombatEnd())) {
+            System.out.println("Enemies dead.");
             //remove ui and announce victory to player, unlock doors
         } else {
             controller.startRound();
@@ -142,9 +132,51 @@ public class GameScreen {
     }
 
     public void startCombat() {
-        
-        ((CombatRoom) room).getController();
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        CombatController controller = ((CombatRoom) room).getController();
+        ArrayList<Card> deck = player.getDeck();
+        Button[] cardButtons = new Button[deck.size()];
+        for (int i = 0; i < deck.size(); i++) {
+            Card card = deck.get(i);
+            cardButtons[i] = new Button();
+            if (card.getName().equals("Strike")) {
+                Image img = new Image("./images/StrikeCard.png");
+                ImageView imgView = new ImageView(img);
+                imgView.setFitHeight(75);
+                imgView.setPreserveRatio(true);
+                cardButtons[i].setGraphic(imgView);
+                cardButtons[i].setOnAction(e -> {
+                    Action action = new Action(controller.getEnemies().get(0), card.getEffect());
+                    playRound(action);
+                });
+            } else if (card.getName().equals("Swipe")) {
+                Image img = new Image("./images/SwipeCard.png");
+                ImageView imgView = new ImageView(img);
+                imgView.setFitHeight(75);
+                imgView.setPreserveRatio(true);
+                cardButtons[i].setGraphic(imgView);
+                cardButtons[i].setOnAction(e -> {
+                    ArrayList<Entity> enemies = new ArrayList<>(controller.getEnemies());
+                    Action action = new Action(enemies, card.getEffect());
+                    playRound(action);
+                });
+            } else {
+                Image img = new Image("./images/DefendCard.png");
+                ImageView imgView = new ImageView(img);
+                imgView.setFitHeight(75);
+                imgView.setPreserveRatio(true);
+                cardButtons[i].setGraphic(imgView);
+                cardButtons[i].setOnAction(e -> {
+                    Action action = new Action(player, card.getEffect());
+                    playRound(action);
+                });
+            }
+            gridPane.add(cardButtons[i], i + 1, 0);
+        }
+        // add player and enemies to gridpane
 
+        borderPane.setCenter(gridPane);
     }
 
     public void changeRoom(Direction d) {

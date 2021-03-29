@@ -3,10 +3,11 @@ package entity.enemy;
 import combat.Action;
 import entity.Entity;
 import entity.enemy.behavior.*;
+import entity.player.Player;
 
 public class Enemy extends Entity {
     private final IEnemyBehavior behavior;
-
+    private static Player player;
     // ***************************************
     // to-do: figure out how to store entity.enemy data. maybe a json or classes
     // ***************************************
@@ -27,7 +28,7 @@ public class Enemy extends Entity {
     }
 
     public Action getAction() {
-        return behavior.getAction(this, null);
+        return behavior.getAction(this, player);
     }
 
     public int getHealth() {
@@ -36,5 +37,9 @@ public class Enemy extends Entity {
 
     public String getName() {
         return name;
+    }
+
+    public static void setPlayer(Player player1) {
+        player = player1;
     }
 }
