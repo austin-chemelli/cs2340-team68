@@ -142,8 +142,9 @@ public class GameScreen {
     }
 
     public void startCombat() {
+        
         ((CombatRoom) room).getController();
-        //to implement: load in all initial ui and sprites given the controller
+
     }
 
     public void changeRoom(Direction d) {
