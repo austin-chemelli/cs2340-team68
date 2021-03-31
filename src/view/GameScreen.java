@@ -42,6 +42,7 @@ public class GameScreen {
     private Button exitButton;
     private CombatController currController;
     private Button[] cardButtons;
+    private Button reset;
 
     private Button resetButton;
 
@@ -69,6 +70,7 @@ public class GameScreen {
         this.player = player;
         gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
+        reset = new Button("Reset :(");
     }
 
     public void setDoorsAndButtons(Direction d) {

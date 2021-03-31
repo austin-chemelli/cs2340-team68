@@ -4,6 +4,7 @@ import dungeon.Dungeon;
 import dungeon.Room;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

@@ -54,19 +54,23 @@ public class CombatController {
         }
 
         ArrayList<Enemy> newEnemies = new ArrayList<>();
-        for (Enemy e : enemies) {
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy e = enemies.get(i);
             if (!e.getIsDead()) {
                 newEnemies.add(e);
             } else {
                 enemyDied = true;
-                deadEntities += e.getName() + " ";
+                deadEntities += e.getName();
+                if (newEnemies.size() != i) {
+                    deadEntities += ", ";
+                }
             }
         }
         enemies = newEnemies;
 
         if (enemies.size() == 0) {
             combatEnd = true;
-            return action.toString() + " all enemies have died";
+            return action.toString() + "\n" + "All enemies are dead!";
         } else {
             if (enemyDied) {
                 return action.toString() + "\n" + deadEntities + " has died";
@@ -76,7 +80,6 @@ public class CombatController {
 
         }
     }
-
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;
