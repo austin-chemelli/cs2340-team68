@@ -43,6 +43,8 @@ public class GameScreen {
     private CombatController currController;
     private Button[] cardButtons;
 
+    private Button resetButton;
+
     public int getWidth() {
         return width;
     }
@@ -55,6 +57,10 @@ public class GameScreen {
         return exitButton;
     }
 
+    public Button getResetButton() {
+        return resetButton;
+    }
+
     public GameScreen(int w, int h, Player player, Dungeon d) {
         width = w;
         height = h;
@@ -65,15 +71,26 @@ public class GameScreen {
         gridPane.setAlignment(Pos.CENTER);
     }
 
-    public void setDoorsAndButtons() {
+    public void setDoorsAndButtons(Direction d) {
         hBox = new HBox(infoLabel, room.getDoor(Direction.NORTH).getDoorButton(), exitButton);
         hBox.setSpacing(170);
 
-        room.unlockDoor(room.getDoor(Direction.NORTH));
-        room.unlockDoor(room.getDoor(Direction.WEST));
-        room.unlockDoor(room.getDoor(Direction.EAST));
-        room.unlockDoor(room.getDoor(Direction.SOUTH));
-        
+        if (room.getRoomType() == RoomType.BOSS) {
+            exitButton.setVisible(true);
+            borderPane.setCenter(exitButton);
+        } else {
+            exitButton.setVisible(false);
+            borderPane.setCenter(gridPane);
+        }
+
+        if (d == null) {
+            room.unlockDoor(room.getDoor(Direction.NORTH));
+            room.unlockDoor(room.getDoor(Direction.SOUTH));
+            room.unlockDoor(room.getDoor(Direction.EAST));
+            room.unlockDoor(room.getDoor(Direction.WEST));
+        } else {
+            room.unlockDoor(room.getDoor(d));
+        }
         borderPane.setTop(hBox);
         borderPane.setLeft(room.getDoor(Direction.WEST).getDoorButton());
         borderPane.setRight(room.getDoor(Direction.EAST).getDoorButton());
@@ -114,10 +131,11 @@ public class GameScreen {
     public void reset() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Game Over");
-        alert.setContentText("You have died, restarting from last fight");
+        alert.setContentText("You have died. Will you try again?");
         alert.showAndWait();
-        ((CombatRoom) room).setController(currController);
-        startCombat();
+        borderPane.getChildren().clear();
+        borderPane.setCenter(resetButton);
+        resetButton.setVisible(true);
     }
 
     //once player confirms action
@@ -132,7 +150,11 @@ public class GameScreen {
             reset();
         } else if ((controller.isCombatEnd())) {
             System.out.println("Enemies dead.");
-            //remove ui and announce victory to player, unlock doors
+            gridPane.getChildren().clear();
+            room.unlockDoor(room.getDoor(Direction.NORTH));
+            room.unlockDoor(room.getDoor(Direction.SOUTH));
+            room.unlockDoor(room.getDoor(Direction.EAST));
+            room.unlockDoor(room.getDoor(Direction.WEST));
         } else {
             controller.startRound();
             //update ui enemies and deck, display results of previous round
@@ -141,6 +163,7 @@ public class GameScreen {
 
     public void startCombat() {
         CombatController controller = ((CombatRoom) room).getController();
+        player = controller.getPlayer();
         ArrayList<Card> deck = player.getDeck();
         cardButtons = new Button[deck.size()];
         for (int i = 0; i < deck.size(); i++) {
@@ -186,6 +209,7 @@ public class GameScreen {
     public void updateCombatUI() {
         if (room.getRoomType() == RoomType.COMBAT) {
             CombatController controller = ((CombatRoom) room).getController();
+            player = controller.getPlayer();
             gridPane.getChildren().clear();
             int counter = 0;
             for (Enemy enemy : controller.getEnemies()) {
@@ -193,7 +217,6 @@ public class GameScreen {
                 counter++;
             }
             for (int i = 0; i < cardButtons.length; i++) {
-                System.out.println("here");
                 gridPane.add(cardButtons[i], i, 2);
             }
             gridPane.add(makeEntityPane(player), 2, 1);
@@ -207,6 +230,25 @@ public class GameScreen {
         Label entityInfo = new Label("Entity: " + entity.getName() + "\nHealth: " + entity.getHealth());
         VBox vBox = new VBox(entityShape, entityInfo);
         return vBox;
+    }
+
+    public void setOppositeDirection(Direction d) {
+        switch (d) {
+            case EAST:
+                setDoorsAndButtons(Direction.WEST);
+                break;
+            case NORTH:
+                setDoorsAndButtons(Direction.SOUTH);
+                break;
+            case WEST:
+                setDoorsAndButtons(Direction.EAST);
+                break;
+            case SOUTH:
+                setDoorsAndButtons(Direction.NORTH);
+                break;
+            default:
+                break;
+        }
     }
 
     public void changeRoom(Direction d) {
@@ -223,8 +265,8 @@ public class GameScreen {
             alert.setContentText("You opened the " + d.toString().toLowerCase()
                     + " door!\n" + room.toString());
             alert.showAndWait();
-            setDoorsAndButtons();
             if (room.getRoomType() == RoomType.COMBAT) {
+                setOppositeDirection(d);
                 if (((CombatRoom) room).getController() == null) {
                     ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
                     int enemyNum = (int) (Math.random() * 3 + 1);
@@ -243,8 +285,14 @@ public class GameScreen {
                 currController = ((CombatRoom) room).getController();
                 if (!((CombatRoom) room).getController().isCombatEnd()) {
                     startCombat();
+                } else {
+                    gridPane.getChildren().clear();
                 }
+            } else if (room.getRoomType() == RoomType.BOSS) {
+                setOppositeDirection(d);
+                gridPane.getChildren().clear();
             } else {
+                setDoorsAndButtons(null);
                 gridPane.getChildren().clear();
             }
         }
@@ -258,14 +306,19 @@ public class GameScreen {
                 + player.getPlayerConfig().getDifficultyAsString());
         infoLabel.setFont(new Font("Cambria", 20));
 
-        Rectangle exitButtonRect = new Rectangle(75, 75, Color.YELLOW);
+        Rectangle exitButtonRect = new Rectangle(75, 75, Color.GREEN);
 
         exitButton = new Button("Exit", exitButtonRect);
         exitButton.setTextFill(Color.BLACK);
         exitButton.setContentDisplay(ContentDisplay.CENTER);
         exitButton.setVisible(false);
 
-        setDoorsAndButtons();
+        resetButton = new Button("Restart Dungeon");
+        exitButton.setTextFill(Color.BLACK);
+        exitButton.setContentDisplay(ContentDisplay.CENTER);
+        exitButton.setVisible(false);
+
+        setDoorsAndButtons(null);
 
         return new Scene(borderPane, width, height);
     }

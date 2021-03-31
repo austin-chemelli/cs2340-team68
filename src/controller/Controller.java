@@ -3,6 +3,7 @@ package controller;
 import dungeon.Dungeon;
 import dungeon.Room;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -13,6 +14,8 @@ import view.EndScreen;
 import view.GameScreen;
 import view.StartScreen;
 
+import java.beans.EventHandler;
+
 public class Controller extends Application {
 
     private Stage mainWindow;
@@ -20,12 +23,17 @@ public class Controller extends Application {
     private final int height = 450;
     private Player player = null;
     private Dungeon dungeon;
+    private Room[][] grid;
+    private StartScreen start;
+    private ConfigScreen config;
+    private GameScreen gameScreen;
 
     public Controller() {
         dungeon = new Dungeon();
     }
 
     public Controller(Room[][] grid) {
+        this.grid = grid;
         dungeon = new Dungeon(grid);
     }
 
@@ -38,7 +46,7 @@ public class Controller extends Application {
     }
 
     private void initStartScreen() {
-        StartScreen start = new StartScreen(width, height);
+        start = new StartScreen(width, height);
         Button startButton = start.getStart();
         startButton.setOnAction(e -> initConfigScreen());
         Scene scene = start.getScene();
@@ -47,7 +55,7 @@ public class Controller extends Application {
     }
 
     private void initConfigScreen() {
-        ConfigScreen config = new ConfigScreen(width, height);
+        config = new ConfigScreen(width, height);
         Button next = config.getNext();
         next.setOnAction(e -> {
             String name = config.getName();
@@ -68,10 +76,14 @@ public class Controller extends Application {
     }
 
     public void initGameScreen() {
-        GameScreen gameScreen = new GameScreen(width, height, player, dungeon);
+        gameScreen = new GameScreen(width, height, player, dungeon);
         Scene gameScene = gameScreen.getScene();
         Button exitButton = gameScreen.getEndButton();
         exitButton.setOnAction(e -> initEndScreen());
+        Button resetButton = gameScreen.getResetButton();
+        resetButton.setOnAction(actionEvent -> {
+            restart();
+        });
         mainWindow.setScene(gameScene);
         mainWindow.show();
     }
@@ -79,9 +91,23 @@ public class Controller extends Application {
     public void initEndScreen() {
         EndScreen end = new EndScreen(width, height);
         Button restartButton = end.getRestart();
-        restartButton.setOnAction(e -> initStartScreen());
+        restartButton.setOnAction(actionEvent -> {
+            restart();
+        });
         Scene scene = end.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();
     }
+
+    public void restart() {
+        if (grid != null) {
+            dungeon = new Dungeon(grid);
+        } else {
+            dungeon = new Dungeon();
+        }
+        player = new Player(config.getName(),
+                config.getDifficultyAsInt(), config.getWeapon());
+        initGameScreen();
+    }
 }
+

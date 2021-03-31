@@ -13,17 +13,17 @@ public class Enemy extends Entity {
     // ***************************************
     public Enemy(String type) {
         if (type.equals("Slime")) {
-            maxHealth = 10;
+            maxHealth = 8;
             name = type;
             health = maxHealth;
             behavior = new SlimeBehavior();
         } else if (type.equals("Goblin")) {
-            maxHealth = 9;
+            maxHealth = 12;
             name = type;
             health = maxHealth;
             behavior = new GoblinBehavior();
         } else if (type.equals("Snake")) {
-            maxHealth = 6;
+            maxHealth = 10;
             name = type;
             health = maxHealth;
             behavior = new SnakeBehavior();

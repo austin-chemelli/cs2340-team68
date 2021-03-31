@@ -10,7 +10,7 @@ import entity.player.Player;
 public class SlimeBehavior implements IEnemyBehavior {
     public Action getAction(Enemy self, Player player) {
         IEffect effect;
-        if (Math.random() < 0.5f) {
+        /*if (Math.random() < 0.5f) {
             // random between 5 and 7
             int rand = (int) (Math.random() * 3) + 5;
             effect = new DamageEffect(rand);
@@ -20,6 +20,9 @@ public class SlimeBehavior implements IEnemyBehavior {
             int rand = (int) (Math.random() * 3) + 4;
             effect = new BlockEffect(rand);
             return new Action(self, effect);
-        }
+        }*/
+        int rand = (int) (Math.random() * 3) + 5;
+        effect = new DamageEffect(rand);
+        return new Action(player, effect);
     }
 }

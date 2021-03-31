@@ -12,7 +12,7 @@ public class Player extends Entity {
     // stats
     private int mana;
     private int maxMana = 3;
-    public static final int BASE_HEALTH = 30;
+    public static final int BASE_HEALTH = 50;
 
     // inventory
     private int gold;

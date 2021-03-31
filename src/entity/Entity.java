@@ -11,10 +11,11 @@ public abstract class Entity {
         if (block > 0) {
             if (block > amount) {
                 block -= amount;
-                return;
             } else {
+                gainHealth(-amount + block);
                 block = 0;
             }
+            return;
         }
         gainHealth(-amount);
     }
@@ -35,6 +36,10 @@ public abstract class Entity {
 
     public void gainBlock(int amount) {
         block += amount;
+    }
+
+    public void resetBlock() {
+        block = 0;
     }
 
     public String getName() {

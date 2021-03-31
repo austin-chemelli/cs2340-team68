@@ -7,6 +7,7 @@ import java.util.ArrayList;
 //import java.util.Arrays;
 
 public class CombatController {
+
     private Player player;
     private ArrayList<Enemy> enemies;
     private ArrayList<Action> enemyIntents;
@@ -22,23 +23,23 @@ public class CombatController {
     public void startRound() {
         player.startRound();
         // show new cards in player.startRound()
-
         enemyIntents = new ArrayList<Action>();
-        for (Enemy e : enemies) {
-            enemyIntents.add(e.getAction());
-        }
     }
 
     public String endRound(Action playerAction) {
         String actionLog = "";
         actionLog += applyAction(playerAction) + "\n";
         int counter = 1;
+        for (Enemy e : enemies) {
+            enemyIntents.add(e.getAction());
+        }
         for (Action a : enemyIntents) {
             if (!combatEnd) {
                 actionLog += applyAction(a) + "\n";
                 counter++;
             }
         }
+        player.resetBlock();
         return actionLog;
     }
 
@@ -83,6 +84,10 @@ public class CombatController {
 
     public ArrayList<Action> getEnemyIntents() {
         return enemyIntents;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public boolean isCombatEnd() {
