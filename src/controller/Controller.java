@@ -3,6 +3,7 @@ package controller;
 import dungeon.Dungeon;
 import dungeon.Room;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -72,6 +73,16 @@ public class Controller extends Application {
         Scene gameScene = gameScreen.getScene();
         Button exitButton = gameScreen.getEndButton();
         exitButton.setOnAction(e -> initEndScreen());
+        Button resetButton = gameScreen.getResetButton();
+        resetButton.setOnAction(e -> {
+            dungeon = new Dungeon();
+            try {
+                mainWindow.close();
+                start(new Stage());
+            } catch (Exception exception) {
+                System.out.println("Restart didn't work.");
+            }
+        });
         mainWindow.setScene(gameScene);
         mainWindow.show();
     }

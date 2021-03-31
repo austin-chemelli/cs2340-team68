@@ -42,6 +42,7 @@ public class GameScreen {
     private Button exitButton;
     private CombatController currController;
     private Button[] cardButtons;
+    private Button reset;
 
     public int getWidth() {
         return width;
@@ -55,6 +56,10 @@ public class GameScreen {
         return exitButton;
     }
 
+    public Button getResetButton() {
+        return reset;
+    }
+
     public GameScreen(int w, int h, Player player, Dungeon d) {
         width = w;
         height = h;
@@ -63,6 +68,7 @@ public class GameScreen {
         this.player = player;
         gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
+        reset = new Button("Reset :(");
     }
 
     public void setDoorsAndButtons() {
@@ -114,10 +120,13 @@ public class GameScreen {
     public void reset() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Game Over");
-        alert.setContentText("You have died, restarting from last fight");
+        alert.setContentText("You have died. You must restart to play.");
         alert.showAndWait();
-        ((CombatRoom) room).setController(currController);
-        startCombat();
+        borderPane.setRight(null);
+        borderPane.setLeft(null);
+        borderPane.setTop(null);
+        borderPane.setBottom(null);
+        borderPane.setCenter(reset);
     }
 
     //once player confirms action
