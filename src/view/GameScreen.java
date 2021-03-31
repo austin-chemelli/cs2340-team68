@@ -68,8 +68,7 @@ public class GameScreen {
         room.unlockDoor(room.getDoor(Direction.WEST));
         room.unlockDoor(room.getDoor(Direction.EAST));
         room.unlockDoor(room.getDoor(Direction.SOUTH));
-
-
+        
         borderPane.setTop(hBox);
         borderPane.setLeft(room.getDoor(Direction.WEST).getDoorButton());
         borderPane.setRight(room.getDoor(Direction.EAST).getDoorButton());
@@ -199,7 +198,14 @@ public class GameScreen {
                     ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
                     int enemyNum = (int) (Math.random() * 3 + 1);
                     for (int i = 0; i < enemyNum; i++) {
-                        enemyList.add(new Enemy("Slime"));
+                        int enemyType = (int) (Math.random() * 3);
+                        if (enemyType == 0) {
+                            enemyList.add(new Enemy("Slime"));
+                        } else if (enemyType == 1) {
+                            enemyList.add(new Enemy("Goblin"));
+                        } else {
+                            enemyList.add(new Enemy("Snake"));
+                        }
                     }
                     ((CombatRoom) room).setController(new CombatController(player, enemyList));
                 }
