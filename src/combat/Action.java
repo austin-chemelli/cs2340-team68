@@ -30,8 +30,12 @@ public class Action {
 
     public String toString() {
         String holder = "";
-        for (Entity target : targets) {
-            holder += target.getName() + ", ";
+        for (int i = 0; i < targets.size(); i++) {
+            Entity target = targets.get(i);
+            holder += target.getName();
+            if (i != targets.size() - 1) {
+                holder += ", ";
+            }
         }
         holder += " " + effect.toString();
         return holder;
