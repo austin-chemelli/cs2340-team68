@@ -16,4 +16,8 @@ public class DamageEffect implements IEffect {
             e.takeDamage(amount);
         }
     }
+
+    public String toString() {
+        return "has taken " + amount + " damage";
+    }
 }

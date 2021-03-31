@@ -29,34 +29,50 @@ public class CombatController {
         }
     }
 
-    public void endRound(Action playerAction) {
-        applyAction(playerAction);
+    public String endRound(Action playerAction) {
+        String actionLog = "";
+        actionLog += applyAction(playerAction) + "\n";
+        int counter = 1;
         for (Action a : enemyIntents) {
             if (!combatEnd) {
-                applyAction(a);
+                actionLog += applyAction(a) + "\n";
+                counter++;
             }
         }
-        //startRound(); not sure if call here or some higher level manager
+        return actionLog;
     }
 
-    public void applyAction(Action action) {
+    public String applyAction(Action action) {
         action.applyEffect();
+        String deadEntities = "";
+        Boolean enemyDied = false;
 
         if (player.getIsDead()) {
             combatEnd = true;
-            return;
+            return action.toString() + "\n" + player.getName() + " has died";
         }
 
         ArrayList<Enemy> newEnemies = new ArrayList<>();
         for (Enemy e : enemies) {
             if (!e.getIsDead()) {
                 newEnemies.add(e);
+            } else {
+                enemyDied = true;
+                deadEntities += e.getName() + " ";
             }
         }
         enemies = newEnemies;
 
         if (enemies.size() == 0) {
             combatEnd = true;
+            return action.toString() + " all enemies have died";
+        } else {
+            if (enemyDied) {
+                return action.toString() + "\n" + deadEntities + " has died";
+            } else {
+                return action.toString();
+            }
+
         }
     }
 

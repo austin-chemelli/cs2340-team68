@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -36,9 +37,11 @@ public class GameScreen {
     private Player player;
     private BorderPane borderPane;
     private HBox hBox;
+    private GridPane gridPane;
     private Label infoLabel;
     private Button exitButton;
     private CombatController currController;
+    private Button[] cardButtons;
 
     public int getWidth() {
         return width;
@@ -58,6 +61,8 @@ public class GameScreen {
         dungeon = d;
         room = d.getCurrentRoom();
         this.player = player;
+        gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
     }
 
     public void setDoorsAndButtons() {
@@ -119,7 +124,11 @@ public class GameScreen {
     //once player confirms action
     public void playRound(Action playerAction) {
         CombatController controller = ((CombatRoom) room).getController();
-        controller.endRound(playerAction);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("End of round");
+        alert.setContentText(controller.endRound(playerAction));
+        alert.showAndWait();
+        updateCombatUI();
         if (player.getIsDead()) {
             reset();
         } else if ((controller.isCombatEnd())) {
@@ -132,11 +141,9 @@ public class GameScreen {
     }
 
     public void startCombat() {
-        GridPane gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
         CombatController controller = ((CombatRoom) room).getController();
         ArrayList<Card> deck = player.getDeck();
-        Button[] cardButtons = new Button[deck.size()];
+        cardButtons = new Button[deck.size()];
         for (int i = 0; i < deck.size(); i++) {
             Card card = deck.get(i);
             cardButtons[i] = new Button();
@@ -172,11 +179,35 @@ public class GameScreen {
                     playRound(action);
                 });
             }
-            gridPane.add(cardButtons[i], i + 1, 0);
         }
-        // add player and enemies to gridpane
-
+        updateCombatUI();
         borderPane.setCenter(gridPane);
+    }
+
+    public void updateCombatUI() {
+        if (room.getRoomType() == RoomType.COMBAT) {
+            CombatController controller = ((CombatRoom) room).getController();
+            gridPane.getChildren().clear();
+            int counter = 0;
+            for (Enemy enemy : controller.getEnemies()) {
+                gridPane.add(makeEntityPane(enemy), counter, 0);
+                counter++;
+            }
+            for (int i = 0; i < cardButtons.length; i++) {
+                System.out.println("here");
+                gridPane.add(cardButtons[i], i, 2);
+            }
+            gridPane.add(makeEntityPane(player), 2, 1);
+        } else {
+            borderPane.setCenter(null);
+        }
+    }
+
+    private VBox makeEntityPane(Entity entity) {
+        Rectangle entityShape = new Rectangle(50, 50, Color.GREEN);
+        Label entityInfo = new Label("Entity: " + entity.getName() + "\nHealth: " + entity.getHealth());
+        VBox vBox = new VBox(entityShape, entityInfo);
+        return vBox;
     }
 
     public void changeRoom(Direction d) {
@@ -207,6 +238,8 @@ public class GameScreen {
                 if (!((CombatRoom) room).getController().isCombatEnd()) {
                     startCombat();
                 }
+            } else {
+                gridPane.getChildren().clear();
             }
         }
     }

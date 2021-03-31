@@ -16,4 +16,8 @@ public class BlockEffect implements IEffect {
             e.gainBlock(amount);
         }
     }
+
+    public String toString() {
+        return "blocked " + amount + " damage";
+    }
 }

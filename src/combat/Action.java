@@ -27,4 +27,13 @@ public class Action {
     public void applyEffect() {
         effect.applyEffect(targets);
     }
+
+    public String toString() {
+        String holder = "";
+        for (Entity target : targets) {
+            holder += target.getName() + ", ";
+        }
+        holder += " " + effect.toString();
+        return holder;
+    }
 }
