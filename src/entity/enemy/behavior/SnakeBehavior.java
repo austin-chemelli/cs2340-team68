@@ -14,7 +14,7 @@ public class SnakeBehavior implements IEnemyBehavior {
             return new Action(player, effect);
         } else {
             effect = new DamageEffect(10);
-            return new Action(self, effect);
+            return new Action(player, effect);
         }
     }
 
