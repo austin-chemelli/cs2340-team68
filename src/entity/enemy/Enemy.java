@@ -17,6 +17,16 @@ public class Enemy extends Entity {
             name = type;
             health = maxHealth;
             behavior = new SlimeBehavior();
+        } else if (type.equals("Goblin")) {
+            maxHealth = 9;
+            name = type;
+            health = maxHealth;
+            behavior = new GoblinBehavior();
+        } else if (type.equals("Snake")) {
+            maxHealth = 6;
+            name = type;
+            health = maxHealth;
+            behavior = new SnakeBehavior();
         } else {
             throw new RuntimeException("Enemy doesn't exist!");
         }
