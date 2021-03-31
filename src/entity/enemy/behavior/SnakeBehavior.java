@@ -10,7 +10,7 @@ public class SnakeBehavior implements IEnemyBehavior {
     public Action getAction(Enemy self, Player player) {
         IEffect effect;
         if (Math.random() < 0.75f) {
-            effect = new DamageEffect(4);
+            effect = new DamageEffect(2);
             return new Action(player, effect);
         } else {
             effect = new DamageEffect(10);
