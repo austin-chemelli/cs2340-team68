@@ -9,8 +9,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class CombatTest {
 
@@ -125,5 +124,22 @@ public class CombatTest {
         assertEquals(blockAmount, enemies.get(0).getBlock());
         assertEquals(blockAmount, enemies.get(1).getBlock());
         assertEquals(blockAmount, enemies.get(2).getBlock());
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testPlayerDies() {
+        Player player = new Player("John", 1, "", 1);
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        enemies.add(new Enemy("Slime"));
+        enemies.add(new Enemy("Slime"));
+        enemies.add(new Enemy("Slime"));
+
+        CombatController combatController = new CombatController(player, enemies);
+
+        int damageAmount = 5;
+        IEffect damageEffect = new DamageEffect(damageAmount);
+        combatController.applyAction(new Action(player, damageEffect));
+
+        assertTrue(player.getIsDead());
     }
 }

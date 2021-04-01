@@ -187,8 +187,7 @@ public class ControllerTest extends ApplicationTest {
         verifyThat("This door leads to nothing!", NodeMatchers.isNotNull());
     }
 
-    @Test
-    public void testCardCombat() {
+    @Test public void testCombatCardAppears() {
         clickOn("Start Game");
         clickOn("#nameField").write("Test name");
         clickOn("Set");
@@ -196,14 +195,7 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Next");
         clickOn("NORTH exit");
         clickOn("OK");
-        clickOn("NORTH exit");
-        clickOn("WEST exit");
-        clickOn("EAST exit");
-        clickOn("SOUTH exit");
-        verifyThat("Confirmation", NodeMatchers.isNotNull());
-        clickOn("OK");
-        clickOn("SOUTH exit");
-        verifyThat("This door leads to nothing!", NodeMatchers.isNotNull());
+        verifyThat("#strike", NodeMatchers.isNotNull());
     }
 
     @Test
@@ -218,4 +210,5 @@ public class ControllerTest extends ApplicationTest {
         clickOn("#strike");
         verifyThat("Message", NodeMatchers.isNotNull());
     }
+
 }
