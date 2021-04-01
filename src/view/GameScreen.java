@@ -181,6 +181,7 @@ public class GameScreen {
                     Action action = new Action(controller.getEnemies().get(0), card.getEffect());
                     playRound(action);
                 });
+                cardButtons[i].setId("strike");
             } else if (card.getName().equals("Swipe")) {
                 Image img = new Image("./images/SwipeCard.png");
                 ImageView imgView = new ImageView(img);
@@ -192,6 +193,7 @@ public class GameScreen {
                     Action action = new Action(enemies, card.getEffect());
                     playRound(action);
                 });
+                cardButtons[i].setId("swipe");
             } else {
                 Image img = new Image("./images/DefendCard.png");
                 ImageView imgView = new ImageView(img);
@@ -202,6 +204,7 @@ public class GameScreen {
                     Action action = new Action(player, card.getEffect());
                     playRound(action);
                 });
+                cardButtons[i].setId("defend");
             }
         }
         updateCombatUI();

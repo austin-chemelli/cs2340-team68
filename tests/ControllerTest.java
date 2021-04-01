@@ -1,9 +1,14 @@
+import combat.CombatController;
 import controller.Controller;
 import dungeon.*;
+import entity.enemy.Enemy;
+import entity.player.Player;
 import javafx.stage.Stage;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
+
+import java.util.ArrayList;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
@@ -16,6 +21,8 @@ public class ControllerTest extends ApplicationTest {
             for (int j = 0; j < 4; j++) {
                 if (i == 0 && j == 0) {
                     roomGrid[i][j] = new StartRoom();
+                } else if (i == 0 && j ==1 ) {
+                    roomGrid[i][j] = new CombatRoom();
                 } else if (i == 3 && j == 3) {
                     roomGrid[i][j] = new BossRoom();
                 } else {
@@ -113,9 +120,9 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Set");
         clickOn("Pistol");
         clickOn("Next");
-        clickOn("NORTH exit");
+        clickOn("EAST exit");
         clickOn("OK");
-        clickOn("SOUTH exit");
+        clickOn("WEST exit");
         clickOn("OK");
         clickOn("WEST exit");
         verifyThat("This door leads to nothing!", NodeMatchers.isNotNull());
@@ -159,5 +166,56 @@ public class ControllerTest extends ApplicationTest {
         }
         clickOn("Exit");
         verifyThat("Congrats! You won.", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testCombatDoors() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("NORTH exit");
+        clickOn("OK");
+        clickOn("NORTH exit");
+        clickOn("WEST exit");
+        clickOn("EAST exit");
+        clickOn("SOUTH exit");
+        verifyThat("Confirmation", NodeMatchers.isNotNull());
+        clickOn("OK");
+        clickOn("SOUTH exit");
+        verifyThat("This door leads to nothing!", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testCardCombat() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("NORTH exit");
+        clickOn("OK");
+        clickOn("NORTH exit");
+        clickOn("WEST exit");
+        clickOn("EAST exit");
+        clickOn("SOUTH exit");
+        verifyThat("Confirmation", NodeMatchers.isNotNull());
+        clickOn("OK");
+        clickOn("SOUTH exit");
+        verifyThat("This door leads to nothing!", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testCombatCard() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("NORTH exit");
+        clickOn("OK");
+        clickOn("#strike");
+        verifyThat("Message", NodeMatchers.isNotNull());
     }
 }
