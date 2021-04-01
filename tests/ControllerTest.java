@@ -1,14 +1,9 @@
-import combat.CombatController;
 import controller.Controller;
 import dungeon.*;
-import entity.enemy.Enemy;
-import entity.player.Player;
 import javafx.stage.Stage;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
-
-import java.util.ArrayList;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
@@ -21,7 +16,7 @@ public class ControllerTest extends ApplicationTest {
             for (int j = 0; j < 4; j++) {
                 if (i == 0 && j == 0) {
                     roomGrid[i][j] = new StartRoom();
-                } else if (i == 0 && j ==1 ) {
+                } else if (i == 0 && j == 1) {
                     roomGrid[i][j] = new CombatRoom();
                 } else if (i == 3 && j == 3) {
                     roomGrid[i][j] = new BossRoom();

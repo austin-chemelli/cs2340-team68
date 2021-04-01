@@ -1,7 +1,6 @@
 package entity.enemy.behavior;
 
 import combat.Action;
-import combat.effect.BlockEffect;
 import combat.effect.DamageEffect;
 import combat.effect.IEffect;
 import entity.enemy.Enemy;

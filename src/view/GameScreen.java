@@ -232,27 +232,28 @@ public class GameScreen {
 
     private VBox makeEntityPane(Entity entity) {
         Rectangle entityShape = new Rectangle(50, 50, Color.GREEN);
-        Label entityInfo = new Label("Entity: " + entity.getName() + "\nHealth: " + entity.getHealth());
+        Label entityInfo = new Label("Entity: " + entity.getName()
+                + "\nHealth: " + entity.getHealth());
         VBox vBox = new VBox(entityShape, entityInfo);
         return vBox;
     }
 
     public void setOppositeDirection(Direction d) {
         switch (d) {
-            case EAST:
-                setDoorsAndButtons(Direction.WEST);
-                break;
-            case NORTH:
-                setDoorsAndButtons(Direction.SOUTH);
-                break;
-            case WEST:
-                setDoorsAndButtons(Direction.EAST);
-                break;
-            case SOUTH:
-                setDoorsAndButtons(Direction.NORTH);
-                break;
-            default:
-                break;
+        case EAST:
+            setDoorsAndButtons(Direction.WEST);
+            break;
+        case NORTH:
+            setDoorsAndButtons(Direction.SOUTH);
+            break;
+        case WEST:
+            setDoorsAndButtons(Direction.EAST);
+            break;
+        case SOUTH:
+            setDoorsAndButtons(Direction.NORTH);
+            break;
+        default:
+            break;
         }
     }
 

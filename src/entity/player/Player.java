@@ -4,7 +4,6 @@ import combat.Card;
 import combat.CardLibrary;
 import entity.Entity;
 import entity.enemy.Enemy;
-import javafx.application.Platform;
 
 import java.util.ArrayList;
 
@@ -13,7 +12,7 @@ public class Player extends Entity {
     // stats
     private int mana;
     private int maxMana = 3;
-    public static int BASE_HEALTH = 30;
+    public static final int BASE_HEALTH = 30;
 
     // inventory
     private int gold;

@@ -3,8 +3,6 @@ package controller;
 import dungeon.Dungeon;
 import dungeon.Room;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -14,8 +12,6 @@ import view.ConfigScreen;
 import view.EndScreen;
 import view.GameScreen;
 import view.StartScreen;
-
-import java.beans.EventHandler;
 
 public class Controller extends Application {
 
