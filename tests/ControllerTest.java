@@ -1,8 +1,5 @@
 import controller.Controller;
-import dungeon.BossRoom;
-import dungeon.CombatRoom;
-import dungeon.Room;
-import dungeon.StartRoom;
+import dungeon.*;
 import javafx.stage.Stage;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
@@ -22,7 +19,7 @@ public class ControllerTest extends ApplicationTest {
                 } else if (i == 3 && j == 3) {
                     roomGrid[i][j] = new BossRoom();
                 } else {
-                    roomGrid[i][j] = new CombatRoom();
+                    roomGrid[i][j] = new EventRoom();
                 }
             }
         }
@@ -91,7 +88,6 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Set");
         clickOn("Pistol");
         clickOn("Next");
-        clickOn("Unlock Doors");
         clickOn("NORTH exit");
         verifyThat("Confirmation", NodeMatchers.isNotNull());
     }
@@ -103,7 +99,6 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Set");
         clickOn("Pistol");
         clickOn("Next");
-        clickOn("Unlock Doors");
         clickOn("SOUTH exit");
         verifyThat("This door leads to nothing!", NodeMatchers.isNotNull());
         clickOn("OK");
@@ -118,10 +113,8 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Set");
         clickOn("Pistol");
         clickOn("Next");
-        clickOn("Unlock Doors");
         clickOn("NORTH exit");
         clickOn("OK");
-        clickOn("Unlock Doors");
         clickOn("SOUTH exit");
         clickOn("OK");
         clickOn("WEST exit");
@@ -139,7 +132,6 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Pistol");
         clickOn("Next");
         for (int i = 0; i < 6; i++) {
-            clickOn("Unlock Doors");
             if (i < 3) {
                 clickOn("EAST exit");
             } else {
@@ -147,7 +139,6 @@ public class ControllerTest extends ApplicationTest {
             }
             clickOn("OK");
         }
-        clickOn("Kill boss");
         verifyThat("Exit", NodeMatchers.isNotNull());
     }
 
@@ -159,7 +150,6 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Pistol");
         clickOn("Next");
         for (int i = 0; i < 6; i++) {
-            clickOn("Unlock Doors");
             if (i < 3) {
                 clickOn("EAST exit");
             } else {
@@ -167,7 +157,6 @@ public class ControllerTest extends ApplicationTest {
             }
             clickOn("OK");
         }
-        clickOn("Kill boss");
         clickOn("Exit");
         verifyThat("Congrats! You won.", NodeMatchers.isNotNull());
     }

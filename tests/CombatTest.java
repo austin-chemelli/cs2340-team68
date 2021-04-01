@@ -33,12 +33,11 @@ public class CombatTest {
 
         CombatController combatController = new CombatController(player, enemies);
 
-
         ArrayList<Enemy> origEnemies = combatController.getEnemies();
         assertEquals(3, enemies.size());
 
         ArrayList<Action> enemyIntents = combatController.getEnemyIntents();
-        assertEquals(3, enemyIntents.size());
+        assertEquals(0, enemyIntents.size());
     }
 
     @Test(timeout = TIMEOUT)
