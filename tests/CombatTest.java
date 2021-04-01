@@ -142,4 +142,29 @@ public class CombatTest {
 
         assertTrue(player.getIsDead());
     }
+
+    @Test(timeout = TIMEOUT)
+    public void testEnemyDamaged() {
+        Player player = new Player("Player", 1, "", 100);
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        enemies.add(new Enemy("Slime"));
+        CombatController combatController = new CombatController(player, enemies);
+        int damageAmount = 5;
+        IEffect damageEffect = new DamageEffect(damageAmount);
+        combatController.applyAction(new Action(enemies.get(0), damageEffect));
+        assertEquals(combatController.getEnemies().get(0).getHealth(), 3);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testPlayerDamaged() {
+        Player player = new Player("Player", 1, "", 75);
+        player.setMaxHealth(100);
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        enemies.add(new Enemy("Slime"));
+        CombatController combatController = new CombatController(player, enemies);
+        int damageAmount = 50;
+        IEffect damageEffect = new DamageEffect(damageAmount);
+        combatController.applyAction(new Action(combatController.getPlayer(), damageEffect));
+        assertEquals(combatController.getPlayer().getHealth(), 25);
+    }
 }

@@ -54,6 +54,10 @@ public abstract class Entity {
         return maxHealth;
     }
 
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
     public int getBlock() {
         return block;
     }
