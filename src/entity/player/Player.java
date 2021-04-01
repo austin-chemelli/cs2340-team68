@@ -4,6 +4,7 @@ import combat.Card;
 import combat.CardLibrary;
 import entity.Entity;
 import entity.enemy.Enemy;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public class Player extends Entity {
     // stats
     private int mana;
     private int maxMana = 3;
-    public static final int BASE_HEALTH = 50;
+    public static int BASE_HEALTH = 30;
 
     // inventory
     private int gold;
@@ -25,12 +26,15 @@ public class Player extends Entity {
     private PlayerConfig playerConfig;
 
     public Player(String name, int difficulty, String startingWeapon) {
+        this(name, difficulty, startingWeapon, BASE_HEALTH);
+    }
+
+    public Player(String name, int difficulty, String startingWeapon, int health) {
         Enemy.setPlayer(this);
         this.name = name;
         playerConfig = new PlayerConfig();
         playerConfig.setDifficulty(difficulty);
-        maxHealth = BASE_HEALTH;
-        health = maxHealth;
+        this.health = health;
         gold = playerConfig.getStartingGold();
 
         // default deck, this code is super temporary
