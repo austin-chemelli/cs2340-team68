@@ -9,6 +9,7 @@ import dungeon.Room;
 import dungeon.RoomType;
 import entity.Entity;
 import entity.enemy.Enemy;
+import entity.player.PlayerDeck;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -165,11 +166,21 @@ public class GameScreen {
 
     public void startCombat() {
         CombatController controller = ((CombatRoom) room).getController();
+
         player = controller.getPlayer();
-        ArrayList<Card> deck = player.getDeck();
-        cardButtons = new Button[deck.size()];
-        for (int i = 0; i < deck.size(); i++) {
-            Card card = deck.get(i);
+        player.startCombat();
+
+        player.startRound(); // idk where to put this
+        //player.endRound(); //also idk where to put this lmao
+        PlayerDeck deck = player.getDeck();
+        int handSize = deck.getHand().size();
+        cardButtons = new Button[handSize];
+
+        for (int i = 0; i < handSize; i++) {
+            Card card = deck.getCardFromHand(i);
+            if (card == null) {
+                continue;
+            }
             cardButtons[i] = new Button();
             if (card.getName().equals("Strike")) {
                 Image img = new Image("./images/StrikeCard.png");
@@ -178,6 +189,8 @@ public class GameScreen {
                 imgView.setPreserveRatio(true);
                 cardButtons[i].setGraphic(imgView);
                 cardButtons[i].setOnAction(e -> {
+                    deck.removeCardFromHand(card);
+                    // card.getTargetType() == Target.SINGLE
                     Action action = new Action(controller.getEnemies().get(0), card.getEffect());
                     playRound(action);
                 });
@@ -189,6 +202,8 @@ public class GameScreen {
                 imgView.setPreserveRatio(true);
                 cardButtons[i].setGraphic(imgView);
                 cardButtons[i].setOnAction(e -> {
+                    deck.removeCardFromHand(card);
+                    // card.getTargetType() == Target.ENEMIES
                     ArrayList<Entity> enemies = new ArrayList<>(controller.getEnemies());
                     Action action = new Action(enemies, card.getEffect());
                     playRound(action);
@@ -201,6 +216,8 @@ public class GameScreen {
                 imgView.setPreserveRatio(true);
                 cardButtons[i].setGraphic(imgView);
                 cardButtons[i].setOnAction(e -> {
+                    deck.removeCardFromHand(card);
+                    // card.getTargetType() == Target.SELF
                     Action action = new Action(player, card.getEffect());
                     playRound(action);
                 });

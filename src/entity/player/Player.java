@@ -1,7 +1,6 @@
 package entity.player;
 
-import combat.Card;
-import combat.CardLibrary;
+import combat.Item;
 import entity.Entity;
 import entity.enemy.Enemy;
 
@@ -12,19 +11,24 @@ public class Player extends Entity {
     // stats
     private int mana;
     private int maxMana = 3;
+    public static final int NUM_CARDS_DRAW = 5;
+    public static final int MAX_ITEMS = 3;
     public static final int BASE_HEALTH = 50;
 
     // inventory
     private int gold;
-    private ArrayList<Card> deck;
-    private ArrayList<Card> hand;
+    private PlayerDeck deck;
+    private ArrayList<Item> items = new ArrayList<>();
 
     private String startingWeapon; // temporary
 
     // meta data-y stuff
     private PlayerConfig playerConfig;
 
+    private static Player instance;
+
     public Player(String name, int difficulty, String startingWeapon) {
+        instance = this;
         Enemy.setPlayer(this);
         this.name = name;
         playerConfig = new PlayerConfig();
@@ -33,24 +37,9 @@ public class Player extends Entity {
         this.health = maxHealth;
         gold = playerConfig.getStartingGold();
 
-        // default deck, this code is super temporary
-        deck = new ArrayList<>();
-        CardLibrary library = new CardLibrary();
-        deck.add(library.get("Strike"));
-        deck.add(library.get("Strike"));
-        //deck.add(library.get("Strike"));
-        //deck.add(library.get("Strike"));
-        //deck.add(library.get("Strike"));
-        deck.add(library.get("Defend"));
-        deck.add(library.get("Defend"));
-        //deck.add(library.get("Defend"));
-        //deck.add(library.get("Defend"));
-        //deck.add(library.get("Defend"));
-        deck.add(library.get("Swipe"));
-        //deck.add(library.get("Swipe"));
-        //deck.add(library.get("Search"));
+        deck = new PlayerDeck();
 
-        this.startingWeapon = startingWeapon;
+        this.startingWeapon = startingWeapon; // remove
     }
 
     public Player(String name, int difficulty, String startingWeapon, int health) {
@@ -65,18 +54,56 @@ public class Player extends Entity {
         }
     }
 
+    public boolean canAddItem(Item item) {
+        return items.size() < 3;
+    }
+
+    public void addItem(Item item) {
+        if (!canAddItem(item)) {
+            throw new RuntimeException("Player has too many items!");
+        }
+        items.add(item);
+    }
+
     public void die() {
         super.die();
         System.out.println("Player died!");
     }
 
+    public void startCombat() {
+        statuses.resetStatuses();
+        deck.resetPiles();
+    }
+
     public void startRound() {
         mana = maxMana;
-        // get new cards
+        deck.addCardsToHand(NUM_CARDS_DRAW);
+    }
+
+    public void endRound() {
+        deck.discardHand();
     }
 
     public int getGold() {
         return gold;
+    }
+
+    public int getNumItems() {
+        return items.size();
+    }
+
+    public Item getItem(int index) {
+        if (index >= items.size()) {
+            return null;
+        }
+        return items.get(index);
+    }
+
+    public Item removeItem(int index) {
+        if (index >= items.size()) {
+            return null;
+        }
+        return items.remove(index);
     }
 
     public String getStartingWeapon() {
@@ -87,7 +114,13 @@ public class Player extends Entity {
         return playerConfig;
     }
 
-    public ArrayList<Card> getDeck() {
+    public static Player getInstance() {
+        return instance;
+    }
+
+
+    public PlayerDeck getDeck() {
         return deck;
     }
+
 }

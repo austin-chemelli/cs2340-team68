@@ -52,7 +52,7 @@ public class CombatTest {
         ArrayList<Enemy> origEnemies = combatController.getEnemies();
         assertEquals(3, origEnemies.size());
 
-        IEffect damageEffect = new DamageEffect(999999);
+        IEffect damageEffect = new DamageEffect(Player.getInstance(), 999999);
         combatController.applyAction(new Action(enemies.get(0), damageEffect));
 
         ArrayList<Enemy> newEnemies = combatController.getEnemies();
@@ -73,7 +73,7 @@ public class CombatTest {
 
 
         int damageAmount = 5;
-        IEffect damageEffect = new DamageEffect(damageAmount);
+        IEffect damageEffect = new DamageEffect(Player.getInstance(), damageAmount);
 
         // single target
         int origHealth = player.getHealth();
@@ -107,7 +107,7 @@ public class CombatTest {
 
 
         int blockAmount = 5;
-        IEffect blockEffect = new BlockEffect(blockAmount);
+        IEffect blockEffect = new BlockEffect(Player.getInstance(), blockAmount);
 
         combatController.applyAction(new Action(player, blockEffect));
 
@@ -137,7 +137,7 @@ public class CombatTest {
         CombatController combatController = new CombatController(player, enemies);
 
         int damageAmount = 5;
-        IEffect damageEffect = new DamageEffect(damageAmount);
+        IEffect damageEffect = new DamageEffect(Player.getInstance(), damageAmount);
         combatController.applyAction(new Action(player, damageEffect));
 
         assertTrue(player.getIsDead());
@@ -150,7 +150,7 @@ public class CombatTest {
         enemies.add(new Enemy("Slime"));
         CombatController combatController = new CombatController(player, enemies);
         int damageAmount = 5;
-        IEffect damageEffect = new DamageEffect(damageAmount);
+        IEffect damageEffect = new DamageEffect(Player.getInstance(), damageAmount);
         combatController.applyAction(new Action(enemies.get(0), damageEffect));
         assertEquals(combatController.getEnemies().get(0).getHealth(), 3);
     }
@@ -163,8 +163,48 @@ public class CombatTest {
         enemies.add(new Enemy("Slime"));
         CombatController combatController = new CombatController(player, enemies);
         int damageAmount = 50;
-        IEffect damageEffect = new DamageEffect(damageAmount);
+        IEffect damageEffect = new DamageEffect(Player.getInstance(), damageAmount);
         combatController.applyAction(new Action(combatController.getPlayer(), damageEffect));
         assertEquals(combatController.getPlayer().getHealth(), 25);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testStrengthEffect() {
+        Player player = new Player("John", 1, "");
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        enemies.add(new Enemy("Slime"));
+        enemies.add(new Enemy("Slime"));
+        enemies.add(new Enemy("Slime"));
+
+        CombatController combatController = new CombatController(player, enemies);
+
+
+        int damageAmount = 5;
+        IEffect damageEffect = new DamageEffect(Player.getInstance(), damageAmount);
+
+        // single target
+        int origHealth = player.getHealth();
+
+        combatController.applyAction(new Action(player, damageEffect));
+
+        assertEquals(origHealth, player.getHealth() + damageAmount);
+
+
+        // buff strength
+        assertEquals(player.getStatuses().getStrength(), 0);
+
+        int strengthAmount = 5;
+        IEffect strengthEffect = new GainStrengthEffect(strengthAmount);
+        combatController.applyAction(new Action(player, strengthEffect));
+
+        assertEquals(player.getStatuses().getStrength(), 5);
+
+
+        // single target with strength
+        origHealth = player.getHealth();
+
+        combatController.applyAction(new Action(player, damageEffect));
+
+        assertEquals(origHealth, player.getHealth() + damageAmount + strengthAmount);
     }
 }

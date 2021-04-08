@@ -1,9 +1,11 @@
+import combat.CardLibrary;
 import entity.player.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class PlayerTests {
     //  TODO
@@ -96,5 +98,37 @@ public class PlayerTests {
         // Negative gold
         //   Should throw RuntimeException
         player.addGold(-1000000);
+    }
+
+    @Test(timeout = TIMEOUT, expected = RuntimeException.class)
+    public void testAddingItem() {
+        // *** assuming player can only have 3 items ***
+
+        Player player = new Player("Test Name", 0, "Test Weapon");
+
+        int numStartingItems = player.getNumItems();
+
+        assertEquals(player.getNumItems(), 0);
+
+        CardLibrary lib = new CardLibrary();
+
+        // Adding Fire Potion
+        player.addItem(CardLibrary.getItem("Fire Potion"));
+
+        assertEquals(player.getNumItems(), numStartingItems + 1);
+        assertEquals(CardLibrary.getItem("Fire Potion"), player.getItem(0));
+
+        // Test can add
+        player.addItem(CardLibrary.getItem("Explosive Potion"));
+        player.addItem(CardLibrary.getItem("Health Potion"));
+
+        assertEquals(player.getNumItems(), numStartingItems + 3);
+        assertFalse(player.canAddItem(CardLibrary.getItem("Block Potion")));
+        assertEquals(CardLibrary.getItem("Explosive Potion"), player.getItem(1));
+        assertEquals(CardLibrary.getItem("Health Potion"), player.getItem(2));
+
+        // Item overflow
+        //   Should throw RuntimeException
+        player.addItem(CardLibrary.getItem("Block Potion"));
     }
 }

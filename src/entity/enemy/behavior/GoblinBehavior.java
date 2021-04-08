@@ -10,10 +10,10 @@ public class GoblinBehavior implements IEnemyBehavior {
     public Action getAction(Enemy self, Player player) {
         IEffect effect;
         if (Math.random() < 0.50f) {
-            effect = new DamageEffect(10);
+            effect = new DamageEffect(self, 10);
             return new Action(player, effect);
         } else {
-            effect = new DamageEffect(6);
+            effect = new DamageEffect(self, 6);
             return new Action(self, effect);
         }
     }

@@ -7,6 +7,12 @@ public abstract class Entity {
     protected int block;
     protected boolean isDead;
 
+    protected Statuses statuses;
+
+    public Entity() {
+        statuses = new Statuses();
+    }
+
     public void takeDamage(int amount) {
         if (block > 0) {
             if (block > amount) {
@@ -64,5 +70,9 @@ public abstract class Entity {
 
     public boolean getIsDead() {
         return isDead;
+    }
+
+    public Statuses getStatuses() {
+        return statuses;
     }
 }

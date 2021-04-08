@@ -2,21 +2,15 @@ package combat;
 
 import combat.effect.IEffect;
 
-public class Card implements Comparable<Card> {
+public class Item implements Comparable<Item> {
     private String name;
     private String desc;
-    private int energyCost;
     private IEffect effect;
     private Target target;
 
-    public Card(String name, String desc, int energyCost, IEffect effect) {
-        this(name, desc, energyCost, effect, Target.SINGLE);
-    }
-
-    public Card(String name, String desc, int energyCost, IEffect effect, Target target) {
+    public Item(String name, String desc, IEffect effect, Target target) {
         this.name = name;
         this.desc = desc;
-        this.energyCost = energyCost;
         this.effect = effect;
         this.target = target;
     }
@@ -29,10 +23,6 @@ public class Card implements Comparable<Card> {
         return desc;
     }
 
-    public int getEnergyCost() {
-        return energyCost;
-    }
-
     public IEffect getEffect() {
         return effect;
     }
@@ -43,7 +33,7 @@ public class Card implements Comparable<Card> {
 
 
     @Override
-    public int compareTo(Card o) {
+    public int compareTo(Item o) {
         return name.compareTo(o.name);
     }
 }

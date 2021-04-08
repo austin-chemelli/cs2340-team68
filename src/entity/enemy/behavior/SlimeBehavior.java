@@ -21,7 +21,7 @@ public class SlimeBehavior implements IEnemyBehavior {
             return new Action(self, effect);
         }*/
         int rand = (int) (Math.random() * 3) + 5;
-        effect = new DamageEffect(rand);
+        effect = new DamageEffect(self, rand);
         return new Action(player, effect);
     }
 }
