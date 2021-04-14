@@ -2,6 +2,7 @@ package combat;
 
 import combat.effect.*;
 import entity.player.Player;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -36,6 +37,8 @@ public class CardLibrary {
         IEffect cardEffect;
         Target target;
         Card card;
+        int cost;
+        Image img;
 
         //
         //  Attacks
@@ -46,7 +49,9 @@ public class CardLibrary {
         manaCost = 1;
         cardEffect = new DamageEffect(Player.getInstance(), 6);
         target = Target.SINGLE;
-        card = new Card(cardName, cardDesc, manaCost, cardEffect, target);
+        cost = 10;
+        img = new Image("./images/StrikeCard.png");
+        card = new Card(cardName, cardDesc, manaCost, cardEffect, target, cost, img);
         cardDict.put(cardName, card);
         cardList.add(card);
 
@@ -55,7 +60,9 @@ public class CardLibrary {
         manaCost = 1;
         cardEffect = new DamageEffect(Player.getInstance(), 4);
         target = Target.ENEMIES;
-        card = new Card(cardName, cardDesc, manaCost, cardEffect, target);
+        cost = 10;
+        img = new Image("./images/SwipeCard.png");
+        card = new Card(cardName, cardDesc, manaCost, cardEffect, target, cost, img);
         cardDict.put(cardName, card);
         cardList.add(card);
 
@@ -68,7 +75,9 @@ public class CardLibrary {
         manaCost = 1;
         cardEffect = new BlockEffect(Player.getInstance(), 5);
         target = Target.SELF;
-        card = new Card(cardName, cardDesc, manaCost, cardEffect, target);
+        cost = 10;
+        img = new Image("./images/DefendCard.png");
+        card = new Card(cardName, cardDesc, manaCost, cardEffect, target, cost, img);
         cardDict.put(cardName, card);
         cardList.add(card);
 
@@ -88,7 +97,9 @@ public class CardLibrary {
         manaCost = 1;
         cardEffect = new GainStrengthEffect(2);
         target = Target.SELF;
-        card = new Card(cardName, cardDesc, manaCost, cardEffect, target);
+        cost = 10;
+        img = new Image("./images/InflameCard.png");
+        card = new Card(cardName, cardDesc, manaCost, cardEffect, target, cost, img);
         cardDict.put(cardName, card);
         cardList.add(card);
 
@@ -97,7 +108,9 @@ public class CardLibrary {
         manaCost = 1;
         cardEffect = new GainDexEffect(2);
         target = Target.SELF;
-        card = new Card(cardName, cardDesc, manaCost, cardEffect, target);
+        cost = 10;
+        img = new Image("./images/DexCard.png");
+        card = new Card(cardName, cardDesc, manaCost, cardEffect, target, cost, img);
         cardDict.put(cardName, card);
         cardList.add(card);
     }
@@ -107,7 +120,9 @@ public class CardLibrary {
         String itemDesc;
         IEffect itemEffect;
         Target target;
+        int cost;
         Item item;
+        Image img;
 
         //
         //  Attacks
@@ -117,7 +132,9 @@ public class CardLibrary {
         itemDesc = "Deal 15 damage to a single enemy";
         itemEffect = new DamageEffect(null, 15);
         target = Target.SINGLE;
-        item = new Item(itemName, itemDesc, itemEffect, target);
+        cost = 10;
+        img = new Image("./images/FirePotion.png");
+        item = new Item(itemName, itemDesc, itemEffect, target, cost, img);
         itemDict.put(itemName, item);
         itemList.add(item);
 
@@ -125,7 +142,9 @@ public class CardLibrary {
         itemDesc = "Deal 8 damage to all enemies";
         itemEffect = new DamageEffect(Player.getInstance(), 8);
         target = Target.ENEMIES;
-        item = new Item(itemName, itemDesc, itemEffect, target);
+        cost = 10;
+        img = new Image("./images/ExplosivePotion.png");
+        item = new Item(itemName, itemDesc, itemEffect, target, cost, img);
         itemDict.put(itemName, item);
         itemList.add(item);
 
@@ -137,7 +156,9 @@ public class CardLibrary {
         itemDesc = "Gain 10 Health";
         itemEffect = new GainHealthEffect(10);
         target = Target.SELF;
-        item = new Item(itemName, itemDesc, itemEffect, target);
+        cost = 10;
+        img = new Image("./images/HealthPotion.png");
+        item = new Item(itemName, itemDesc, itemEffect, target, cost, img);
         itemDict.put(itemName, item);
         itemList.add(item);
 
@@ -145,7 +166,9 @@ public class CardLibrary {
         itemDesc = "Gain 12 block";
         itemEffect = new BlockEffect(Player.getInstance(), 12);
         target = Target.SELF;
-        item = new Item(itemName, itemDesc, itemEffect, target);
+        cost = 10;
+        img = new Image("./images/BlockPotion.png");
+        item = new Item(itemName, itemDesc, itemEffect, target, cost, img);
         itemDict.put(itemName, item);
         itemList.add(item);
 
@@ -163,7 +186,9 @@ public class CardLibrary {
         itemDesc = "Gain 2 Strength";
         itemEffect = new GainStrengthEffect(2);
         target = Target.SELF;
-        item = new Item(itemName, itemDesc, itemEffect, target);
+        cost = 10;
+        img = new Image("./images/StrengthPotion.png");
+        item = new Item(itemName, itemDesc, itemEffect, target, cost, img);
         itemDict.put(itemName, item);
         itemList.add(item);
 
@@ -171,7 +196,9 @@ public class CardLibrary {
         itemDesc = "Gain 2 Dex";
         itemEffect = new GainDexEffect(2);
         target = Target.SELF;
-        item = new Item(itemName, itemDesc, itemEffect, target);
+        cost = 10;
+        img = new Image("./images/DexterityPotion.png");
+        item = new Item(itemName, itemDesc, itemEffect, target, cost, img);
         itemDict.put(itemName, item);
         itemList.add(item);
     }

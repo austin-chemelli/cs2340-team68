@@ -3,7 +3,11 @@ package view;
 import combat.Action;
 import combat.Card;
 import combat.CombatController;
+import combat.Target;
+import combat.Item;
 import dungeon.CombatRoom;
+import dungeon.ShopRoom;
+import dungeon.ShopController;
 import dungeon.Dungeon;
 import dungeon.Room;
 import dungeon.RoomType;
@@ -41,7 +45,6 @@ public class GameScreen {
     private GridPane gridPane;
     private Label infoLabel;
     private Button exitButton;
-    private CombatController currController;
     private Button[] cardButtons;
     private Button reset;
 
@@ -182,47 +185,25 @@ public class GameScreen {
                 continue;
             }
             cardButtons[i] = new Button();
-            if (card.getName().equals("Strike")) {
-                Image img = new Image("./images/StrikeCard.png");
-                ImageView imgView = new ImageView(img);
-                imgView.setFitHeight(75);
-                imgView.setPreserveRatio(true);
-                cardButtons[i].setGraphic(imgView);
-                cardButtons[i].setOnAction(e -> {
-                    deck.removeCardFromHand(card);
-                    // card.getTargetType() == Target.SINGLE
-                    Action action = new Action(controller.getEnemies().get(0), card.getEffect());
-                    playRound(action);
-                });
-                cardButtons[i].setId("strike");
-            } else if (card.getName().equals("Swipe")) {
-                Image img = new Image("./images/SwipeCard.png");
-                ImageView imgView = new ImageView(img);
-                imgView.setFitHeight(75);
-                imgView.setPreserveRatio(true);
-                cardButtons[i].setGraphic(imgView);
-                cardButtons[i].setOnAction(e -> {
-                    deck.removeCardFromHand(card);
-                    // card.getTargetType() == Target.ENEMIES
+            Image img = card.getImg();
+            ImageView imgView = new ImageView(img);
+            imgView.setFitHeight(75);
+            imgView.setPreserveRatio(true);
+            cardButtons[i].setGraphic(imgView);
+            cardButtons[i].setOnAction(e -> {
+                deck.removeCardFromHand(card);
+                Action action;
+                if (card.getTargetType() == Target.SINGLE) {
+                    action = new Action(controller.getEnemies().get(0), card.getEffect());
+                } else if (card.getTargetType() == Target.ENEMIES) {
                     ArrayList<Entity> enemies = new ArrayList<>(controller.getEnemies());
-                    Action action = new Action(enemies, card.getEffect());
-                    playRound(action);
-                });
-                cardButtons[i].setId("swipe");
-            } else {
-                Image img = new Image("./images/DefendCard.png");
-                ImageView imgView = new ImageView(img);
-                imgView.setFitHeight(75);
-                imgView.setPreserveRatio(true);
-                cardButtons[i].setGraphic(imgView);
-                cardButtons[i].setOnAction(e -> {
-                    deck.removeCardFromHand(card);
-                    // card.getTargetType() == Target.SELF
-                    Action action = new Action(player, card.getEffect());
-                    playRound(action);
-                });
-                cardButtons[i].setId("defend");
-            }
+                    action = new Action(enemies, card.getEffect());
+                } else {
+                    action = new Action(player, card.getEffect());
+                }
+                playRound(action);
+            });
+            cardButtons[i].setId(card.getName());
         }
         updateCombatUI();
         borderPane.setCenter(gridPane);
@@ -245,6 +226,59 @@ public class GameScreen {
         } else {
             borderPane.setCenter(null);
         }
+    }
+
+    public void updateShopUI() {
+        ShopController controller = ((ShopRoom) room).getController();
+        Item[] items = controller.getPotionItems();
+        Card[] cards = controller.getCardItems();
+        Button[] itemShopButtons = new Button[items.length];
+        Button[] cardShopButtons = new Button[cards.length];
+        for (int i = 0; i < itemShopButtons.length; i++) {
+            itemShopButtons[i] = new Button();
+            Image img = items[i].getImg();
+            ImageView imgView = new ImageView(img);
+            imgView.setFitHeight(75);
+            imgView.setPreserveRatio(true);
+            itemShopButtons[i].setGraphic(imgView);
+            int index = i;
+            itemShopButtons[i].setOnAction(e -> {
+                Item transaction = controller.buyItem(items[index]);
+                if (transaction != null) {
+                    infoLabel.setText("Gold: " + player.getGold()
+                            + "\nWeapon: " + player.getStartingWeapon() + "\nDifficulty: "
+                            + player.getPlayerConfig().getDifficultyAsString());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Purchase Completed");
+                    alert.setContentText(items[index].getName() + " added to inventory.");
+                    alert.showAndWait();
+                }
+            });
+            gridPane.add(itemShopButtons[i], i, 0);
+        }
+        for (int i = 0; i < cardShopButtons.length; i++) {
+            cardShopButtons[i] = new Button();
+            Image img = cards[i].getImg();
+            ImageView imgView = new ImageView(img);
+            imgView.setFitHeight(75);
+            imgView.setPreserveRatio(true);
+            cardShopButtons[i].setGraphic(imgView);
+            int index = i;
+            cardShopButtons[i].setOnAction(e -> {
+                Card transaction = controller.buyCard(cards[index]);
+                if (transaction != null) {
+                    infoLabel.setText("Gold: " + player.getGold()
+                            + "\nWeapon: " + player.getStartingWeapon() + "\nDifficulty: "
+                            + player.getPlayerConfig().getDifficultyAsString());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Purchase Completed");
+                    alert.setContentText(cards[index].getName() + " added to deck.");
+                    alert.showAndWait();
+                }
+            });
+            gridPane.add(cardShopButtons[i], i, 1);
+        }
+        borderPane.setCenter(gridPane);
     }
 
     private VBox makeEntityPane(Entity entity) {
@@ -305,7 +339,6 @@ public class GameScreen {
                     }
                     ((CombatRoom) room).setController(new CombatController(player, enemyList));
                 }
-                currController = ((CombatRoom) room).getController();
                 if (!((CombatRoom) room).getController().isCombatEnd()) {
                     startCombat();
                 } else {
@@ -314,6 +347,13 @@ public class GameScreen {
             } else if (room.getRoomType() == RoomType.BOSS) {
                 setOppositeDirection(d);
                 gridPane.getChildren().clear();
+            } else if (room.getRoomType() == RoomType.SHOP) {
+                setDoorsAndButtons(null);
+                if (((ShopRoom) room).getController() == null) {
+                    ((ShopRoom) room).setController(new ShopController(player));
+                }
+                gridPane.getChildren().clear();
+                updateShopUI();
             } else {
                 setDoorsAndButtons(null);
                 gridPane.getChildren().clear();

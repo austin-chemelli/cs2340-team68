@@ -123,7 +123,7 @@ public class PlayerTests {
         player.addItem(CardLibrary.getItem("Health Potion"));
 
         assertEquals(player.getNumItems(), numStartingItems + 3);
-        assertFalse(player.canAddItem(CardLibrary.getItem("Block Potion")));
+        assertFalse(player.canAddItem());
         assertEquals(CardLibrary.getItem("Explosive Potion"), player.getItem(1));
         assertEquals(CardLibrary.getItem("Health Potion"), player.getItem(2));
 

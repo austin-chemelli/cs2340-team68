@@ -49,17 +49,17 @@ public class Player extends Entity {
 
     public void addGold(int amount) {
         gold += amount;
-        if (gold <= 0) {
+        if (gold < 0) {
             throw new RuntimeException("Player has a negative amount of gold!");
         }
     }
 
-    public boolean canAddItem(Item item) {
+    public boolean canAddItem() {
         return items.size() < 3;
     }
 
     public void addItem(Item item) {
-        if (!canAddItem(item)) {
+        if (!canAddItem()) {
             throw new RuntimeException("Player has too many items!");
         }
         items.add(item);
