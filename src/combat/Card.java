@@ -16,7 +16,8 @@ public class Card implements Comparable<Card> {
         this(name, desc, energyCost, effect, Target.SINGLE, 10, img);
     }
 
-    public Card(String name, String desc, int energyCost, IEffect effect, Target target, int cost, Image img) {
+    public Card(String name, String desc, int energyCost, IEffect effect,
+                Target target, int cost, Image img) {
         this.name = name;
         this.desc = desc;
         this.energyCost = energyCost;
