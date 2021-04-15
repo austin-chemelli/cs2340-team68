@@ -1,10 +1,6 @@
 package view;
 
-import combat.Action;
-import combat.Card;
-import combat.CombatController;
-import combat.Target;
-import combat.Item;
+import combat.*;
 import dungeon.CombatRoom;
 import dungeon.ShopRoom;
 import dungeon.ShopController;
@@ -260,6 +256,12 @@ public class GameScreen {
                 gridPane.add(cardButtons[i], i, 2);
             }
             gridPane.add(makeEntityPane(player), 2, 1);
+            Button inventoryButton = new Button("Go to inventory");
+            inventoryButton.setOnAction(e -> {
+                updateInventoryUI();
+            });
+
+            gridPane.add(inventoryButton, 3, 1);
         } else {
             borderPane.setCenter(null);
         }
@@ -283,7 +285,7 @@ public class GameScreen {
                 Item transaction = controller.buyItem(items[index]);
                 if (transaction != null) {
                     infoLabel.setText("Gold: " + player.getGold()
-                            + "\nWeapon: " + player.getStartingWeapon() + "\nDifficulty: "
+                            + "\nWeapon: " + player.getEquippedWeapon().getName() + "\nDifficulty: "
                             + player.getPlayerConfig().getDifficultyAsString());
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Purchase Completed");
@@ -305,7 +307,7 @@ public class GameScreen {
                 Card transaction = controller.buyCard(cards[index]);
                 if (transaction != null) {
                     infoLabel.setText("Gold: " + player.getGold()
-                            + "\nWeapon: " + player.getStartingWeapon() + "\nDifficulty: "
+                            + "\nWeapon: " + player.getEquippedWeapon().getName() + "\nDifficulty: "
                             + player.getPlayerConfig().getDifficultyAsString());
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Purchase Completed");
@@ -316,6 +318,49 @@ public class GameScreen {
             gridPane.add(cardShopButtons[i], i, 1);
         }
         borderPane.setCenter(gridPane);
+    }
+
+    public void updateInventoryUI() {
+        Label attributeLabel = new Label("Health: " + player.getHealth() + " ; Gold: " + player.getGold());
+        attributeLabel.setFont(new Font("Georgia", 20));
+
+        Label statusesLabel = new Label(player.getStatuses().toString());
+        statusesLabel.setFont(new Font("Georgia", 20));
+
+        HBox weapons = new HBox();
+        for (int i = 0; i < player.getNumWeapons(); i++) {
+            Weapon currWeapon = player.getWeapon(i);
+            Button weaponButton = new Button("Weapon: " + currWeapon.getName());
+            weaponButton.setFont(new Font("Georgia", 20));
+            weaponButton.setOnAction(e -> {
+                player.setEquippedWeapon(currWeapon);
+                statusesLabel.setText(player.getStatuses().toString());
+            });
+            weapons.getChildren().add(weaponButton);
+        }
+        weapons.setAlignment(Pos.CENTER);
+
+        HBox items = new HBox();
+        for (int i = 0; i < player.getNumItems(); i++) {
+            Button itemButton = new Button("Item: " + player.getItem(i).getName());
+            itemButton.setFont(new Font("Georgia", 20));
+            itemButton.setOnAction(e -> {
+                //perform item action
+            });
+            items.getChildren().add(itemButton);
+        }
+        items.setAlignment(Pos.CENTER);
+
+        Button combatButton = new Button("Go back to combat");
+        combatButton.setFont(new Font("Georgia", 20));
+        combatButton.setOnAction(e -> {
+            updateCombatUI();
+        });
+
+        VBox inventoryVBox = new VBox(attributeLabel, statusesLabel, weapons, items, combatButton);
+        inventoryVBox.setAlignment(Pos.CENTER);
+
+        borderPane.setCenter(inventoryVBox);
     }
 
     private VBox makeEntityPane(Entity entity) {
@@ -402,7 +447,7 @@ public class GameScreen {
         borderPane = new BorderPane();
         infoLabel = new Label();
         infoLabel.setText("Gold: " + player.getGold()
-                + "\nWeapon: " + player.getStartingWeapon() + "\nDifficulty: "
+                + "\nWeapon: " + player.getEquippedWeapon().getName() + "\nDifficulty: "
                 + player.getPlayerConfig().getDifficultyAsString());
         infoLabel.setFont(new Font("Cambria", 20));
 

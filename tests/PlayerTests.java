@@ -28,7 +28,7 @@ public class PlayerTests {
         Player playerEasy = new Player(name, 0, weapon);
 
         assertEquals(playerEasy.getName(), name);
-        assertEquals(playerEasy.getStartingWeapon(), weapon);
+        assertEquals(playerEasy.getEquippedWeapon().getName(), weapon);
         assertEquals(playerEasy.getHealth(), Player.BASE_HEALTH);
 
         assertEquals(playerEasy.getGold(), PlayerConfig.STARTING_GOLD_EASY);

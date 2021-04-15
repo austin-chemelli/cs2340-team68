@@ -12,6 +12,7 @@ public class CardLibrary {
     private static ArrayList<Card> cardList = new ArrayList<>();
     private static Hashtable<String, Item> itemDict = new Hashtable<>();
     private static ArrayList<Item> itemList = new ArrayList<>();
+    private static Hashtable<String, Weapon> weaponDict = new Hashtable<>();
 
     private static boolean didInit;
 
@@ -28,6 +29,7 @@ public class CardLibrary {
 
         initCards();
         initItems();
+        initWeapons();
     }
 
     private static void initCards() {
@@ -203,12 +205,41 @@ public class CardLibrary {
         itemList.add(item);
     }
 
+    private static void initWeapons() {
+        String weaponName;
+        int weaponStrength;
+        int weaponDex;
+        Weapon weapon;
+
+        weaponName = "pistol";
+        weaponStrength = 2;
+        weaponDex = 4;
+        weapon = new Weapon(weaponName, weaponStrength, weaponDex);
+        weaponDict.put(weaponName, weapon);
+
+        weaponName = "rifle";
+        weaponStrength = 4;
+        weaponDex = 2;
+        weapon = new Weapon(weaponName, weaponStrength, weaponDex);
+        weaponDict.put(weaponName, weapon);
+
+        weaponName = "shotgun";
+        weaponStrength = 3;
+        weaponDex = 3;
+        weapon = new Weapon(weaponName, weaponStrength, weaponDex);
+        weaponDict.put(weaponName, weapon);
+    }
+
     public static Card getCard(String name) {
         return cardDict.get(name);
     }
 
     public static Item getItem(String name) {
         return itemDict.get(name);
+    }
+
+    public static Weapon getWeapon(String name) {
+        return weaponDict.get(name);
     }
 
     public static Card getRandomCard() {

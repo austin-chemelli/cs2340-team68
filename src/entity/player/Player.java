@@ -1,6 +1,8 @@
 package entity.player;
 
+import combat.CardLibrary;
 import combat.Item;
+import combat.Weapon;
 import entity.Entity;
 import entity.enemy.Enemy;
 
@@ -19,8 +21,9 @@ public class Player extends Entity {
     private int gold;
     private PlayerDeck deck;
     private ArrayList<Item> items = new ArrayList<>();
+    private ArrayList<Weapon> weapons = new ArrayList<>();
 
-    private String startingWeapon; // temporary
+    private Weapon equippedWeapon;
 
     // meta data-y stuff
     private PlayerConfig playerConfig;
@@ -39,7 +42,9 @@ public class Player extends Entity {
 
         deck = new PlayerDeck();
 
-        this.startingWeapon = startingWeapon; // remove
+        equippedWeapon = CardLibrary.getWeapon(startingWeapon);
+        setEquippedWeapon(equippedWeapon);
+        addWeapon(equippedWeapon);
     }
 
     public Player(String name, int difficulty, String startingWeapon, int health) {
@@ -112,8 +117,29 @@ public class Player extends Entity {
         return items.remove(index);
     }
 
-    public String getStartingWeapon() {
-        return startingWeapon;
+    public int getNumWeapons() {
+        return weapons.size();
+    }
+
+    public Weapon getWeapon(int index) {
+        if (index >= weapons.size()) {
+            return null;
+        }
+        return weapons.get(index);
+    }
+
+    public void addWeapon(Weapon weapon) {
+        weapons.add(weapon);
+    }
+
+    public Weapon getEquippedWeapon() {
+        return equippedWeapon;
+    }
+
+    public void setEquippedWeapon(Weapon equippedWeapon) {
+        this.equippedWeapon = equippedWeapon;
+        this.getStatuses().setWeaponStrength(equippedWeapon.getStrength());
+        this.getStatuses().setWeaponDex(equippedWeapon.getDex());
     }
 
     public PlayerConfig getPlayerConfig() {
