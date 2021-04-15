@@ -73,15 +73,21 @@ public class Player extends Entity {
     public void startCombat() {
         statuses.resetStatuses();
         deck.resetPiles();
+        deck.discardHand();
     }
 
     public void startRound() {
+        System.out.println("Starting Player round!");
         mana = maxMana;
         deck.addCardsToHand(NUM_CARDS_DRAW);
+        System.out.println("Player has " + deck.getHand().size() + " cards in hand.");
+        System.out.println(deck.handAsString());
     }
 
     public void endRound() {
+        System.out.println("Ending Player round.");
         deck.discardHand();
+        System.out.println("Player has " + deck.getHand().size() + " cards in hand.");
     }
 
     public int getGold() {

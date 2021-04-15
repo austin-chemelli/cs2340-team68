@@ -27,6 +27,7 @@ public class CombatController {
     }
 
     public String endRound(Action playerAction) {
+        player.endRound();
         String actionLog = "";
         actionLog += applyAction(playerAction) + "\n";
         int counter = 1;

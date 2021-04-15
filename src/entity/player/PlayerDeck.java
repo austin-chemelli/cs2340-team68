@@ -20,16 +20,16 @@ public class PlayerDeck {
         CardLibrary library = new CardLibrary();
         deck.add(library.getCard("Strike"));
         deck.add(library.getCard("Strike"));
-        //deck.add(library.get("Strike"));
-        //deck.add(library.get("Strike"));
-        //deck.add(library.get("Strike"));
+        deck.add(library.getCard("Strike"));
+        deck.add(library.getCard("Strike"));
+        deck.add(library.getCard("Strike"));
         deck.add(library.getCard("Defend"));
         deck.add(library.getCard("Defend"));
-        //deck.add(library.get("Defend"));
-        //deck.add(library.get("Defend"));
-        //deck.add(library.get("Defend"));
+        deck.add(library.getCard("Defend"));
+        deck.add(library.getCard("Defend"));
+        deck.add(library.getCard("Defend"));
         deck.add(library.getCard("Swipe"));
-        //deck.add(library.get("Swipe"));
+        deck.add(library.getCard("Swipe"));
         //deck.add(library.get("Search"));
 
         drawPile = new ArrayList<Card>();
@@ -69,10 +69,12 @@ public class PlayerDeck {
     }
 
     public Card removeCardFromHand(int index) {
+        discardPile.add(hand.get(index));
         return hand.remove(index);
     }
 
     public boolean removeCardFromHand(Card card) {
+        discardPile.add(card);
         return hand.remove(card);
     }
 
@@ -104,6 +106,14 @@ public class PlayerDeck {
         while (hand.size() > 0) {
             discardPile.add(hand.remove(0));
         }
+    }
+
+    public String handAsString() {
+        String s = "";
+        for (Card c : hand) {
+            s += c.getName() + ", ";
+        }
+        return s;
     }
 
 

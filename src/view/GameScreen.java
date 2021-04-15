@@ -164,6 +164,7 @@ public class GameScreen {
         } else {
             controller.startRound();
             //update ui enemies and deck, display results of previous round
+            updateCombatUI();
         }
     }
 
@@ -174,7 +175,6 @@ public class GameScreen {
         player.startCombat();
 
         player.startRound(); // idk where to put this
-        //player.endRound(); //also idk where to put this lmao
         PlayerDeck deck = player.getDeck();
         int handSize = deck.getHand().size();
         cardButtons = new Button[handSize];
@@ -209,11 +209,48 @@ public class GameScreen {
         borderPane.setCenter(gridPane);
     }
 
+    private void updateCardButtonsUI() {
+        CombatController controller = ((CombatRoom) room).getController();
+
+        PlayerDeck deck = player.getDeck();
+        int handSize = deck.getHand().size();
+
+        cardButtons = new Button[handSize];
+
+        for (int i = 0; i < handSize; i++) {
+            Card card = deck.getCardFromHand(i);
+            if (card == null) {
+                continue;
+            }
+            cardButtons[i] = new Button();
+            Image img = card.getImg();
+            ImageView imgView = new ImageView(img);
+            imgView.setFitHeight(75);
+            imgView.setPreserveRatio(true);
+            cardButtons[i].setGraphic(imgView);
+            cardButtons[i].setOnAction(e -> {
+                deck.removeCardFromHand(card);
+                Action action;
+                if (card.getTargetType() == Target.SINGLE) {
+                    action = new Action(controller.getEnemies().get(0), card.getEffect());
+                } else if (card.getTargetType() == Target.ENEMIES) {
+                    ArrayList<Entity> enemies = new ArrayList<>(controller.getEnemies());
+                    action = new Action(enemies, card.getEffect());
+                } else {
+                    action = new Action(player, card.getEffect());
+                }
+                playRound(action);
+            });
+            cardButtons[i].setId(card.getName());
+        }
+    }
+
     public void updateCombatUI() {
         if (room.getRoomType() == RoomType.COMBAT) {
             CombatController controller = ((CombatRoom) room).getController();
             player = controller.getPlayer();
             gridPane.getChildren().clear();
+            updateCardButtonsUI();
             int counter = 0;
             for (Enemy enemy : controller.getEnemies()) {
                 gridPane.add(makeEntityPane(enemy), counter, 0);
