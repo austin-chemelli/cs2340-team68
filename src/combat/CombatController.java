@@ -71,6 +71,7 @@ public class CombatController {
 
         if (enemies.size() == 0) {
             combatEnd = true;
+            player.addWeapon(CardLibrary.getWeapon("sniper"));
             return action.toString() + "\n" + "All enemies are dead!";
         } else {
             if (enemyDied) {

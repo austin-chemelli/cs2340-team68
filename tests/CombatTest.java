@@ -81,7 +81,7 @@ public class CombatTest extends ApplicationTest {
 
         combatController.applyAction(new Action(player, damageEffect));
 
-        assertEquals(origHealth, player.getHealth() + damageAmount);
+        assertEquals(origHealth, player.getHealth() + damageAmount + player.getStatuses().getStrength());
 
 
         // multi target
@@ -91,9 +91,9 @@ public class CombatTest extends ApplicationTest {
 
         combatController.applyAction(new Action(new ArrayList<>(enemies), damageEffect));
 
-        assertEquals(slimeOrig0, enemies.get(0).getHealth() + damageAmount);
-        assertEquals(slimeOrig1, enemies.get(1).getHealth() + damageAmount);
-        assertEquals(slimeOrig2, enemies.get(2).getHealth() + damageAmount);
+        assertEquals(slimeOrig0, enemies.get(0).getHealth() + damageAmount + player.getStatuses().getStrength());
+        assertEquals(slimeOrig1, enemies.get(1).getHealth() + damageAmount + player.getStatuses().getStrength());
+        assertEquals(slimeOrig2, enemies.get(2).getHealth() + damageAmount + player.getStatuses().getStrength());
     }
 
     @Test(timeout = TIMEOUT)
@@ -166,7 +166,7 @@ public class CombatTest extends ApplicationTest {
         int damageAmount = 50;
         IEffect damageEffect = new DamageEffect(Player.getInstance(), damageAmount);
         combatController.applyAction(new Action(combatController.getPlayer(), damageEffect));
-        assertEquals(combatController.getPlayer().getHealth(), 25);
+        assertEquals(combatController.getPlayer().getHealth() + player.getStatuses().getStrength(), 25);
     }
 
     @Test(timeout = TIMEOUT)
@@ -188,17 +188,17 @@ public class CombatTest extends ApplicationTest {
 
         combatController.applyAction(new Action(player, damageEffect));
 
-        assertEquals(origHealth, player.getHealth() + damageAmount);
+        assertEquals(origHealth, player.getHealth() + damageAmount + player.getStatuses().getStrength());
 
 
         // buff strength
-        assertEquals(player.getStatuses().getStrength(), 0);
+        assertEquals(player.getStatuses().getStrength(), 2);
 
         int strengthAmount = 5;
         IEffect strengthEffect = new GainStrengthEffect(strengthAmount);
         combatController.applyAction(new Action(player, strengthEffect));
 
-        assertEquals(player.getStatuses().getStrength(), 5);
+        assertEquals(player.getStatuses().getStrength(), 7);
 
 
         // single target with strength
@@ -206,6 +206,6 @@ public class CombatTest extends ApplicationTest {
 
         combatController.applyAction(new Action(player, damageEffect));
 
-        assertEquals(origHealth, player.getHealth() + damageAmount + strengthAmount);
+        assertEquals(origHealth, player.getHealth() + damageAmount + player.getStatuses().getStrength());
     }
 }

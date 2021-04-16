@@ -138,7 +138,7 @@ public class CardLibrary {
         img = new Image("./images/FirePotion.png");
         item = new Item(itemName, itemDesc, itemEffect, target, cost, img);
         itemDict.put(itemName, item);
-        itemList.add(item);
+        //itemList.add(item);
 
         itemName = "Explosive Potion";
         itemDesc = "Deal 8 damage to all enemies";
@@ -148,7 +148,7 @@ public class CardLibrary {
         img = new Image("./images/ExplosivePotion.png");
         item = new Item(itemName, itemDesc, itemEffect, target, cost, img);
         itemDict.put(itemName, item);
-        itemList.add(item);
+        //itemList.add(item);
 
         //
         //  Defense
@@ -226,6 +226,12 @@ public class CardLibrary {
         weaponName = "shotgun";
         weaponStrength = 3;
         weaponDex = 3;
+        weapon = new Weapon(weaponName, weaponStrength, weaponDex);
+        weaponDict.put(weaponName, weapon);
+
+        weaponName = "sniper";
+        weaponStrength = 6;
+        weaponDex = 1;
         weapon = new Weapon(weaponName, weaponStrength, weaponDex);
         weaponDict.put(weaponName, weapon);
     }

@@ -129,7 +129,9 @@ public class Player extends Entity {
     }
 
     public void addWeapon(Weapon weapon) {
-        weapons.add(weapon);
+        if (!weapons.contains(weapon)) {
+            weapons.add(weapon);
+        }
     }
 
     public Weapon getEquippedWeapon() {

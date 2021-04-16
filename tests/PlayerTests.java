@@ -132,4 +132,27 @@ public class PlayerTests extends ApplicationTest {
         //   Should throw RuntimeException
         player.addItem(CardLibrary.getItem("Block Potion"));
     }
+
+    @Test(timeout = TIMEOUT)
+    public void testEquipWeapon() {
+        Player player = new Player("Test Name", 0, "pistol");
+        CardLibrary lib = new CardLibrary();
+
+        assertEquals(CardLibrary.getWeapon("pistol"), player.getEquippedWeapon());
+
+        //equip new weapon
+        player.setEquippedWeapon(CardLibrary.getWeapon("rifle"));
+        assertEquals(CardLibrary.getWeapon("rifle"), player.getEquippedWeapon());
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testWeaponStatuses() {
+        Player player = new Player("Test Name", 0, "pistol");
+
+        int pistolStrength = CardLibrary.getWeapon("pistol").getStrength();
+        int pistolDex = CardLibrary.getWeapon("pistol").getDex();
+
+        assertEquals(pistolStrength, player.getStatuses().getStrength());
+        assertEquals(pistolDex, player.getStatuses().getDex());
+    }
 }

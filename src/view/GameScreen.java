@@ -344,10 +344,27 @@ public class GameScreen {
 
         HBox items = new HBox();
         for (int i = 0; i < player.getNumItems(); i++) {
-            Button itemButton = new Button("Item: " + player.getItem(i).getName());
+            CombatController controller = ((CombatRoom) room).getController();
+            int currIndex = i;
+            Item currItem = player.getItem(i);
+            Button itemButton = new Button("Item: " + currItem.getName());
             itemButton.setFont(new Font("Georgia", 20));
             itemButton.setOnAction(e -> {
-                //perform item action
+                Action action;
+                if (currItem.getTargetType() == Target.SINGLE) {
+                    action = new Action(controller.getEnemies().get(0), currItem.getEffect());
+                } else if (currItem.getTargetType() == Target.ENEMIES) {
+                    ArrayList<Entity> enemies = new ArrayList<>(controller.getEnemies());
+                    action = new Action(enemies, currItem.getEffect());
+                } else {
+                    action = new Action(player, currItem.getEffect());
+                }
+                action.applyEffect();
+                statusesLabel.setText(player.getStatuses().toString());
+                attributeLabel.setText("Health: " + player.getHealth()
+                        + " ; Gold: " + player.getGold());
+                player.removeItem(currIndex);
+                updateInventoryUI();
             });
             items.getChildren().add(itemButton);
         }
