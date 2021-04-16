@@ -368,7 +368,7 @@ public class GameScreen {
                 updateInventoryUI();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Potion used!");
-                alert.setContentText("Activated " + currItem.getName());
+                alert.setContentText("Drank " + currItem.getName());
                 alert.showAndWait();
             });
             items.getChildren().add(itemButton);
