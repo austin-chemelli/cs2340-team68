@@ -322,7 +322,8 @@ public class GameScreen {
     }
 
     public void updateInventoryUI() {
-        Label attributeLabel = new Label("Health: " + player.getHealth() + " ; Gold: " + player.getGold());
+        Label attributeLabel = new Label("Health: " + player.getHealth()
+                + " ; Gold: " + player.getGold());
         attributeLabel.setFont(new Font("Georgia", 20));
 
         Label statusesLabel = new Label(player.getStatuses().toString());

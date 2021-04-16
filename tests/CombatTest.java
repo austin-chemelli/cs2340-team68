@@ -5,15 +5,16 @@ import entity.enemy.Enemy;
 import entity.player.Player;
 import org.junit.Before;
 import org.junit.Test;
+import org.testfx.framework.junit.ApplicationTest;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import static org.junit.Assert.*;
 
-public class CombatTest {
+public class CombatTest extends ApplicationTest {
 
-    private static final int TIMEOUT = 50000;
+    private static final int TIMEOUT = 10000;
     private Random random;
 
     @Before
@@ -24,7 +25,7 @@ public class CombatTest {
 
     @Test(timeout = TIMEOUT)
     public void testInitializeCombat() {
-        Player player = new Player("John", 1, "");
+        Player player = new Player("John", 1, "pistol");
         ArrayList<Enemy> enemies = new ArrayList<>();
         enemies.add(new Enemy("Slime"));
         enemies.add(new Enemy("Slime"));
@@ -41,7 +42,7 @@ public class CombatTest {
 
     @Test(timeout = TIMEOUT)
     public void testEnemyRemoved() {
-        Player player = new Player("John", 1, "");
+        Player player = new Player("John", 1, "pistol");
         ArrayList<Enemy> enemies = new ArrayList<>();
         enemies.add(new Enemy("Slime"));
         enemies.add(new Enemy("Slime"));
@@ -63,7 +64,7 @@ public class CombatTest {
 
     @Test(timeout = TIMEOUT)
     public void testDamageEffect() {
-        Player player = new Player("John", 1, "");
+        Player player = new Player("John", 1, "pistol");
         ArrayList<Enemy> enemies = new ArrayList<>();
         enemies.add(new Enemy("Slime"));
         enemies.add(new Enemy("Slime"));
@@ -97,7 +98,7 @@ public class CombatTest {
 
     @Test(timeout = TIMEOUT)
     public void testBlockEffect() {
-        Player player = new Player("John", 1, "");
+        Player player = new Player("John", 1, "pistol");
         ArrayList<Enemy> enemies = new ArrayList<>();
         enemies.add(new Enemy("Slime"));
         enemies.add(new Enemy("Slime"));
@@ -128,7 +129,7 @@ public class CombatTest {
 
     @Test(timeout = TIMEOUT)
     public void testPlayerDies() {
-        Player player = new Player("John", 1, "", 1);
+        Player player = new Player("John", 1, "pistol", 1);
         ArrayList<Enemy> enemies = new ArrayList<>();
         enemies.add(new Enemy("Slime"));
         enemies.add(new Enemy("Slime"));
@@ -145,19 +146,19 @@ public class CombatTest {
 
     @Test(timeout = TIMEOUT)
     public void testEnemyDamaged() {
-        Player player = new Player("Player", 1, "", 100);
+        Player player = new Player("Player", 1, "pistol", 100);
         ArrayList<Enemy> enemies = new ArrayList<>();
         enemies.add(new Enemy("Slime"));
         CombatController combatController = new CombatController(player, enemies);
         int damageAmount = 5;
         IEffect damageEffect = new DamageEffect(Player.getInstance(), damageAmount);
         combatController.applyAction(new Action(enemies.get(0), damageEffect));
-        assertEquals(combatController.getEnemies().get(0).getHealth(), 3);
+        assertEquals(combatController.getEnemies().get(0).getHealth(), 1);
     }
 
     @Test(timeout = TIMEOUT)
     public void testPlayerDamaged() {
-        Player player = new Player("Player", 1, "", 75);
+        Player player = new Player("Player", 1, "pistol", 75);
         player.setMaxHealth(100);
         ArrayList<Enemy> enemies = new ArrayList<>();
         enemies.add(new Enemy("Slime"));
@@ -170,7 +171,7 @@ public class CombatTest {
 
     @Test(timeout = TIMEOUT)
     public void testStrengthEffect() {
-        Player player = new Player("John", 1, "");
+        Player player = new Player("John", 1, "pistol");
         ArrayList<Enemy> enemies = new ArrayList<>();
         enemies.add(new Enemy("Slime"));
         enemies.add(new Enemy("Slime"));

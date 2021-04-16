@@ -3,11 +3,12 @@ import entity.player.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.testfx.framework.junit.ApplicationTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-public class PlayerTests {
+public class PlayerTests extends ApplicationTest {
     //  TODO
     // test block
     // change weapon test to starting deck test
@@ -23,7 +24,7 @@ public class PlayerTests {
     @Test(timeout = TIMEOUT)
     public void testInstanceFields() {
         String name = "Johnny Test";
-        String weapon = "Testistious";
+        String weapon = "pistol";
 
         Player playerEasy = new Player(name, 0, weapon);
 
@@ -46,7 +47,7 @@ public class PlayerTests {
 
     @Test(timeout = TIMEOUT)
     public void testAddingHealth() {
-        Player player = new Player("Test Name", 0, "Test Weapon");
+        Player player = new Player("Test Name", 0, "pistol");
 
         int playerMaxHealth = Player.BASE_HEALTH;
 
@@ -79,7 +80,7 @@ public class PlayerTests {
 
     @Test(timeout = TIMEOUT, expected = RuntimeException.class)
     public void testAddingGold() {
-        Player player = new Player("Test Name", 0, "Test Weapon");
+        Player player = new Player("Test Name", 0, "pistol");
 
         int startingGold = PlayerConfig.STARTING_GOLD_EASY;
 
@@ -104,7 +105,7 @@ public class PlayerTests {
     public void testAddingItem() {
         // *** assuming player can only have 3 items ***
 
-        Player player = new Player("Test Name", 0, "Test Weapon");
+        Player player = new Player("Test Name", 0, "pistol");
 
         int numStartingItems = player.getNumItems();
 
