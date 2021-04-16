@@ -16,7 +16,7 @@ public class BlockEffect implements IEffect {
     public void applyEffect(ArrayList<Entity> entities) {
         int block = calculateBlock();
         for (Entity e : entities) {
-            e.gainBlock(baseAmount);
+            e.gainBlock(block);
         }
     }
 

@@ -112,7 +112,7 @@ public class CombatTest extends ApplicationTest {
 
         combatController.applyAction(new Action(player, blockEffect));
 
-        assertEquals(blockAmount, player.getBlock());
+        assertEquals(blockAmount, player.getBlock() - player.getStatuses().getDex());
 
 
         // multi target
@@ -122,9 +122,9 @@ public class CombatTest extends ApplicationTest {
 
         combatController.applyAction(new Action(new ArrayList<>(enemies), blockEffect));
 
-        assertEquals(blockAmount, enemies.get(0).getBlock());
-        assertEquals(blockAmount, enemies.get(1).getBlock());
-        assertEquals(blockAmount, enemies.get(2).getBlock());
+        assertEquals(blockAmount, enemies.get(0).getBlock() - player.getStatuses().getDex());
+        assertEquals(blockAmount, enemies.get(1).getBlock() - player.getStatuses().getDex());
+        assertEquals(blockAmount, enemies.get(2).getBlock() - player.getStatuses().getDex());
     }
 
     @Test(timeout = TIMEOUT)
@@ -207,5 +207,45 @@ public class CombatTest extends ApplicationTest {
         combatController.applyAction(new Action(player, damageEffect));
 
         assertEquals(origHealth, player.getHealth() + damageAmount + player.getStatuses().getStrength());
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testDexEffect() {
+        Player player = new Player("John", 1, "pistol");
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        enemies.add(new Enemy("Slime"));
+        enemies.add(new Enemy("Slime"));
+        enemies.add(new Enemy("Slime"));
+
+        CombatController combatController = new CombatController(player, enemies);
+
+
+        int blockAmount = 5;
+        IEffect blockEffect = new BlockEffect(Player.getInstance(), blockAmount);
+
+        // single target
+        int origBlock = player.getBlock();
+
+        combatController.applyAction(new Action(player, blockEffect));
+
+        assertEquals(origBlock, player.getBlock() - blockAmount - player.getStatuses().getDex());
+
+
+        // buff dex
+        assertEquals(player.getStatuses().getDex(), 4);
+
+        int dexAmount = 5;
+        IEffect dexEffect = new GainDexEffect(dexAmount);
+        combatController.applyAction(new Action(player, dexEffect));
+
+        assertEquals(player.getStatuses().getDex(), 9);
+
+
+        // single target with block
+        origBlock = player.getBlock();
+
+        combatController.applyAction(new Action(player, blockEffect));
+
+        assertEquals(origBlock, player.getBlock() - blockAmount - player.getStatuses().getDex());
     }
 }
