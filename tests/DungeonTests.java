@@ -26,7 +26,7 @@ public class DungeonTests extends ApplicationTest {
         // checking did room types
         int numStart = 0;
         int numCombat = 0;
-        int numEvent = 0;
+        int numSafe = 0;
         int numShop = 0;
         int numBoss = 0;
         int numNull = 0;
@@ -43,8 +43,8 @@ public class DungeonTests extends ApplicationTest {
                 case COMBAT:
                     numCombat += 1;
                     break;
-                case EVENT:
-                    numEvent += 1;
+                case SAFE:
+                    numSafe += 1;
                     break;
                 case SHOP:
                     numShop += 1;
@@ -74,7 +74,7 @@ public class DungeonTests extends ApplicationTest {
         Room[][] rooms = {
                 {new StartRoom(), new CombatRoom(), new CombatRoom()},
                 {new CombatRoom(), null, new CombatRoom()},
-                {new ShopRoom(), new EventRoom(), new BossRoom()}
+                {new ShopRoom(), new SafeRoom(), new BossRoom()}
         };
         Dungeon dungeon = new Dungeon(rooms);
 
@@ -109,7 +109,7 @@ public class DungeonTests extends ApplicationTest {
         dungeon.move(Direction.NORTH);
 
         // At 2, 1
-        assertEquals(dungeon.getCurrentRoom().getRoomType(), RoomType.EVENT);
+        assertEquals(dungeon.getCurrentRoom().getRoomType(), RoomType.SAFE);
         assertFalse(dungeon.canMove(Direction.EAST));
         assertTrue(dungeon.canMove(Direction.NORTH));
         assertFalse(dungeon.canMove(Direction.WEST));

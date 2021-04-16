@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class CombatTest {
 
-    private static final int TIMEOUT = 500;
+    private static final int TIMEOUT = 50000;
     private Random random;
 
     @Before

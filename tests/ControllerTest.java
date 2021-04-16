@@ -20,8 +20,10 @@ public class ControllerTest extends ApplicationTest {
                     roomGrid[i][j] = new CombatRoom();
                 } else if (i == 3 && j == 3) {
                     roomGrid[i][j] = new BossRoom();
+                }  else if (i == 1 && j == 1) {
+                    roomGrid[i][j] = new ShopRoom();
                 } else {
-                    roomGrid[i][j] = new EventRoom();
+                    roomGrid[i][j] = new SafeRoom();
                 }
             }
         }
@@ -190,7 +192,7 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Next");
         clickOn("NORTH exit");
         clickOn("OK");
-        verifyThat("#strike", NodeMatchers.isNotNull());
+        verifyThat("#Strike", NodeMatchers.isNotNull());
     }
 
     @Test
@@ -202,8 +204,41 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Next");
         clickOn("NORTH exit");
         clickOn("OK");
-        clickOn("#strike");
+        clickOn("#Strike");
+        verifyThat("Message", NodeMatchers.isNotNull());
+        clickOn("OK");
+        clickOn("#Defend");
         verifyThat("Message", NodeMatchers.isNotNull());
     }
 
+    @Test
+    public void testBuyFromShop() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("EAST exit");
+        clickOn("OK");
+        clickOn("NORTH exit");
+        clickOn("OK");
+        clickOn("#Potion1");
+        verifyThat("Message", NodeMatchers.isNotNull());
+        verifyThat("Gold: 190\nWeapon: pistol\nDifficulty: Easy", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testCombatInventory() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("NORTH exit");
+        clickOn("OK");
+        clickOn("Go to inventory");
+        verifyThat("Go back to combat", NodeMatchers.isNotNull());
+        clickOn("Go back to combat");
+        verifyThat("#Strike", NodeMatchers.isNotNull());
+    }
 }

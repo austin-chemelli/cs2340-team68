@@ -3,7 +3,7 @@ package dungeon;
 public enum RoomType {
     START,
     COMBAT,
-    EVENT,
+    SAFE,
     SHOP,
     BOSS,
 }

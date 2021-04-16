@@ -43,6 +43,7 @@ public class GameScreen {
     private Button exitButton;
     private Button[] cardButtons;
     private Button reset;
+    private Button inventoryButton;
 
     private Button resetButton;
 
@@ -137,6 +138,7 @@ public class GameScreen {
         alert.showAndWait();
         borderPane.getChildren().clear();
         borderPane.setCenter(resetButton);
+        inventoryButton.setVisible(false);
         resetButton.setVisible(true);
     }
 
@@ -256,12 +258,9 @@ public class GameScreen {
                 gridPane.add(cardButtons[i], i, 2);
             }
             gridPane.add(makeEntityPane(player), 2, 1);
-            Button inventoryButton = new Button("Go to inventory");
-            inventoryButton.setOnAction(e -> {
-                updateInventoryUI();
-            });
 
             gridPane.add(inventoryButton, 3, 1);
+            borderPane.setCenter(gridPane);
         } else {
             borderPane.setCenter(null);
         }
@@ -281,6 +280,7 @@ public class GameScreen {
             imgView.setPreserveRatio(true);
             itemShopButtons[i].setGraphic(imgView);
             int index = i;
+            itemShopButtons[i].setId("Potion" + i);
             itemShopButtons[i].setOnAction(e -> {
                 Item transaction = controller.buyItem(items[index]);
                 if (transaction != null) {
@@ -303,6 +303,7 @@ public class GameScreen {
             imgView.setPreserveRatio(true);
             cardShopButtons[i].setGraphic(imgView);
             int index = i;
+            cardShopButtons[i].setId("Card" + i);
             cardShopButtons[i].setOnAction(e -> {
                 Card transaction = controller.buyCard(cards[index]);
                 if (transaction != null) {
@@ -462,6 +463,11 @@ public class GameScreen {
         exitButton.setTextFill(Color.BLACK);
         exitButton.setContentDisplay(ContentDisplay.CENTER);
         exitButton.setVisible(false);
+
+        inventoryButton = new Button("Go to inventory");
+        inventoryButton.setOnAction(e -> {
+            updateInventoryUI();
+        });
 
         setDoorsAndButtons(null);
 

@@ -123,7 +123,7 @@ public class Dungeon {
             }
             double rand = Math.random();
             if (rand <= CHANCE_EVENT) {
-                addToGrid(new EventRoom(), i);
+                addToGrid(new SafeRoom(), i);
                 continue;
             }
             rand -= CHANCE_EVENT;
