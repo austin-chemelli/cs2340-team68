@@ -201,7 +201,7 @@ public class GameScreen {
                 }
                 playRound(action);
             });
-            cardButtons[i].setId(card.getName());
+            cardButtons[i].setId("card" + i);
         }
         updateCombatUI();
         borderPane.setCenter(gridPane);
@@ -239,7 +239,7 @@ public class GameScreen {
                 }
                 playRound(action);
             });
-            cardButtons[i].setId(card.getName());
+            cardButtons[i].setId("card" + i);
         }
     }
 

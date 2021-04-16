@@ -192,7 +192,7 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Next");
         clickOn("NORTH exit");
         clickOn("OK");
-        verifyThat("#Strike", NodeMatchers.isNotNull());
+        verifyThat("#card0", NodeMatchers.isNotNull());
     }
 
     @Test
@@ -204,10 +204,7 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Next");
         clickOn("NORTH exit");
         clickOn("OK");
-        clickOn("#Strike");
-        verifyThat("Message", NodeMatchers.isNotNull());
-        clickOn("OK");
-        clickOn("#Defend");
+        clickOn("#card0");
         verifyThat("Message", NodeMatchers.isNotNull());
     }
 
@@ -239,6 +236,6 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Go to inventory");
         verifyThat("Go back to combat", NodeMatchers.isNotNull());
         clickOn("Go back to combat");
-        verifyThat("#Strike", NodeMatchers.isNotNull());
+        verifyThat("#card0", NodeMatchers.isNotNull());
     }
 }
