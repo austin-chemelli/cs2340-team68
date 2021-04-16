@@ -238,4 +238,25 @@ public class ControllerTest extends ApplicationTest {
         clickOn("Go back to combat");
         verifyThat("#card0", NodeMatchers.isNotNull());
     }
+
+    @Test
+    public void testUsePotion() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("EAST exit");
+        clickOn("OK");
+        clickOn("NORTH exit");
+        clickOn("OK");
+        clickOn("#Potion0");
+        clickOn("OK");
+        clickOn("WEST exit");
+        clickOn("OK");
+        clickOn("Go to inventory");
+        verifyThat("#item0", NodeMatchers.isNotNull());
+        clickOn("#item0");
+        verifyThat("Confirmation", NodeMatchers.isNotNull());
+    }
 }

@@ -348,6 +348,7 @@ public class GameScreen {
             int currIndex = i;
             Item currItem = player.getItem(i);
             Button itemButton = new Button("Item: " + currItem.getName());
+            itemButton.setId("item" + i);
             itemButton.setFont(new Font("Georgia", 20));
             itemButton.setOnAction(e -> {
                 Action action;
@@ -365,6 +366,10 @@ public class GameScreen {
                         + " ; Gold: " + player.getGold());
                 player.removeItem(currIndex);
                 updateInventoryUI();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Potion used!");
+                alert.setContentText("Activated " + currItem.getName());
+                alert.showAndWait();
             });
             items.getChildren().add(itemButton);
         }
