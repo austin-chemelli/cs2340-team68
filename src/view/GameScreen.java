@@ -1,12 +1,7 @@
 package view;
 
 import combat.*;
-import dungeon.CombatRoom;
-import dungeon.ShopRoom;
-import dungeon.ShopController;
-import dungeon.Dungeon;
-import dungeon.Room;
-import dungeon.RoomType;
+import dungeon.*;
 import entity.Entity;
 import entity.enemy.Enemy;
 import entity.player.PlayerDeck;
@@ -159,6 +154,10 @@ public class GameScreen {
             room.unlockDoor(room.getDoor(Direction.SOUTH));
             room.unlockDoor(room.getDoor(Direction.EAST));
             room.unlockDoor(room.getDoor(Direction.WEST));
+            if (room.getRoomType() == RoomType.BOSS) {
+                exitButton.setVisible(true);
+                borderPane.setCenter(exitButton);
+            }
         } else {
             controller.startRound();
             //update ui enemies and deck, display results of previous round
@@ -167,7 +166,12 @@ public class GameScreen {
     }
 
     public void startCombat() {
-        CombatController controller = ((CombatRoom) room).getController();
+        CombatController controller;
+        if (room.getRoomType() == RoomType.BOSS) {
+            controller = ((BossRoom) room).getController();
+        } else {
+            controller = ((CombatRoom) room).getController();
+        }
 
         player = controller.getPlayer();
         player.startCombat();
@@ -244,7 +248,7 @@ public class GameScreen {
     }
 
     public void updateCombatUI() {
-        if (room.getRoomType() == RoomType.COMBAT) {
+        if (room.getRoomType() == RoomType.COMBAT || room.getRoomType() == RoomType.BOSS) {
             CombatController controller = ((CombatRoom) room).getController();
             player = controller.getPlayer();
             gridPane.getChildren().clear();
@@ -452,7 +456,18 @@ public class GameScreen {
                 }
             } else if (room.getRoomType() == RoomType.BOSS) {
                 setOppositeDirection(d);
-                gridPane.getChildren().clear();
+                if (((BossRoom) room).getController() == null) {
+                    ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+                    enemyList.add(new Enemy("Boss"));
+                    ((BossRoom) room).setController(new CombatController(player, enemyList));
+                }
+                if (!((BossRoom) room).getController().isCombatEnd()) {
+                    System.out.println("Combat started");
+                    startCombat();
+                } else {
+                     exitButton.setVisible(true);
+                     borderPane.setCenter(exitButton);
+                }
             } else if (room.getRoomType() == RoomType.SHOP) {
                 setDoorsAndButtons(null);
                 if (((ShopRoom) room).getController() == null) {

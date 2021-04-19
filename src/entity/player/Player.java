@@ -15,7 +15,7 @@ public class Player extends Entity {
     private int maxMana = 3;
     public static final int NUM_CARDS_DRAW = 5;
     public static final int MAX_ITEMS = 3;
-    public static final int BASE_HEALTH = 50;
+    public static final int BASE_HEALTH = 100;
 
     // inventory
     private int gold;
