@@ -7,7 +7,7 @@ import combat.effect.IEffect;
 import entity.enemy.Enemy;
 import entity.player.Player;
 
-public class BossBehavior implements IEnemyBehavior{
+public class BossBehavior implements IEnemyBehavior {
     public Action getAction(Enemy self, Player player) {
         IEffect effect;
         if (Math.random() < 0.5f) {

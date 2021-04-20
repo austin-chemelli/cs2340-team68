@@ -465,8 +465,8 @@ public class GameScreen {
                     System.out.println("Combat started");
                     startCombat();
                 } else {
-                     exitButton.setVisible(true);
-                     borderPane.setCenter(exitButton);
+                    exitButton.setVisible(true);
+                    borderPane.setCenter(exitButton);
                 }
             } else if (room.getRoomType() == RoomType.SHOP) {
                 setDoorsAndButtons(null);
