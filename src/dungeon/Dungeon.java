@@ -8,6 +8,7 @@ public class Dungeon {
     public static final int DUNGEON_HEIGHT = 4; // min 3
 
     public static final int NUM_SHOPS = 2;
+    public static final int NUM_CHALLENGE_ROOMS = 3;
     public static final double CHANCE_EVENT = 0.3f;
     public static final double CHANCE_EMPTY = 0.2f;
 
@@ -110,7 +111,14 @@ public class Dungeon {
             }
             // add to grid
             addToGrid(new ShopRoom(), randSpot);
-            addToGrid(new ShopRoom(), randSpot);
+        }
+        for (int i = 0; i < NUM_CHALLENGE_ROOMS; i++) {
+            int randSpot = (int) (Math.random() * numSpots);
+            while (!generalRoomCanPlace(randSpot)) {
+                randSpot = (int) (Math.random() * numSpots);
+            }
+            // add to grid
+            addToGrid(new ChallengeRoom(), randSpot);
         }
 
         // other general rooms

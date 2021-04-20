@@ -53,6 +53,9 @@ public abstract class Room {
         door.setLocked(false);
     }
 
+    public void lockDoor(Door door) {
+        door.setLocked(true);
+    }
     public RoomType getRoomType() {
         return roomType;
     }
