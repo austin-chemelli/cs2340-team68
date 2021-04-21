@@ -8,7 +8,7 @@ public class Dungeon {
     public static final int DUNGEON_HEIGHT = 4; // min 3
 
     public static final int NUM_SHOPS = 2;
-    public static final int NUM_CHALLENGE_ROOMS = 3;
+    public static final int NUM_CHALLENGE_ROOMS = 2;
     public static final double CHANCE_EVENT = 0.3f;
     public static final double CHANCE_EMPTY = 0.2f;
 
