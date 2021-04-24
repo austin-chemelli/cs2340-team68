@@ -2,12 +2,12 @@ package controller;
 
 import dungeon.Dungeon;
 import dungeon.Room;
+import entity.player.Player;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import entity.player.Player;
 import view.ConfigScreen;
 import view.EndScreen;
 import view.GameScreen;

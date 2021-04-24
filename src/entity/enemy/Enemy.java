@@ -28,7 +28,7 @@ public class Enemy extends Entity {
             health = maxHealth;
             behavior = new SnakeBehavior();
         } else if (type.equals("Boss")) {
-            maxHealth = 25;
+            maxHealth = 50;
             name = type;
             health = maxHealth;
             behavior = new BossBehavior();
