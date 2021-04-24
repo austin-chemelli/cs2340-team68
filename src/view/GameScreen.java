@@ -1,12 +1,7 @@
 package view;
 
 import combat.*;
-import dungeon.CombatRoom;
-import dungeon.ShopRoom;
-import dungeon.ShopController;
-import dungeon.Dungeon;
-import dungeon.Room;
-import dungeon.RoomType;
+import dungeon.*;
 import entity.Entity;
 import entity.enemy.Enemy;
 import entity.player.PlayerDeck;
@@ -44,7 +39,7 @@ public class GameScreen {
     private Button[] cardButtons;
     private Button reset;
     private Button inventoryButton;
-
+    private Button challengeButton;
     private Button resetButton;
 
     public int getWidth() {
@@ -159,6 +154,17 @@ public class GameScreen {
             room.unlockDoor(room.getDoor(Direction.SOUTH));
             room.unlockDoor(room.getDoor(Direction.EAST));
             room.unlockDoor(room.getDoor(Direction.WEST));
+            if (room.getRoomType() == RoomType.BOSS) {
+                exitButton.setVisible(true);
+                borderPane.setCenter(exitButton);
+            } else if (room.getRoomType() == RoomType.CHALLENGE) {
+                player.addGold(30);
+                infoLabel.setText("Gold: " + player.getGold()
+                        + "\nWeapon: " + player.getEquippedWeapon().getName() + "\nDifficulty: "
+                        + player.getPlayerConfig().getDifficultyAsString());
+                Label label = new Label("Congrats! \n +30 gold.");
+                borderPane.setCenter(label);
+            }
         } else {
             controller.startRound();
             //update ui enemies and deck, display results of previous round
@@ -244,7 +250,8 @@ public class GameScreen {
     }
 
     public void updateCombatUI() {
-        if (room.getRoomType() == RoomType.COMBAT) {
+        if (room.getRoomType() == RoomType.COMBAT || room.getRoomType() == RoomType.BOSS
+                || room.getRoomType() == RoomType.CHALLENGE) {
             CombatController controller = ((CombatRoom) room).getController();
             player = controller.getPlayer();
             gridPane.getChildren().clear();
@@ -452,7 +459,18 @@ public class GameScreen {
                 }
             } else if (room.getRoomType() == RoomType.BOSS) {
                 setOppositeDirection(d);
-                gridPane.getChildren().clear();
+                if (((BossRoom) room).getController() == null) {
+                    ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+                    enemyList.add(new Enemy("Boss"));
+                    ((BossRoom) room).setController(new CombatController(player, enemyList));
+                }
+                if (!((BossRoom) room).getController().isCombatEnd()) {
+                    System.out.println("Combat started");
+                    startCombat();
+                } else {
+                    exitButton.setVisible(true);
+                    borderPane.setCenter(exitButton);
+                }
             } else if (room.getRoomType() == RoomType.SHOP) {
                 setDoorsAndButtons(null);
                 if (((ShopRoom) room).getController() == null) {
@@ -460,6 +478,35 @@ public class GameScreen {
                 }
                 gridPane.getChildren().clear();
                 updateShopUI();
+            } else if (room.getRoomType() == RoomType.CHALLENGE) {
+                setDoorsAndButtons(null);
+                challengeButton = new Button("Accept the challenge?");
+                challengeButton.setOnAction(e -> {
+                    ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+                    for (int i = 0; i < 5; i++) {
+                        int enemyType = (int) (Math.random() * 3);
+                        if (enemyType == 0) {
+                            enemyList.add(new Enemy("Slime"));
+                        } else if (enemyType == 1) {
+                            enemyList.add(new Enemy("Goblin"));
+                        } else {
+                            enemyList.add(new Enemy("Snake"));
+                        }
+                    }
+                    ((ChallengeRoom) room).setController(new CombatController(player, enemyList));
+                    room.lockDoor(room.getDoor(Direction.EAST));
+                    room.lockDoor(room.getDoor(Direction.WEST));
+                    room.lockDoor(room.getDoor(Direction.NORTH));
+                    room.lockDoor(room.getDoor(Direction.SOUTH));
+                    startCombat();
+                });
+                if (((ChallengeRoom) room).getController() == null) {
+                    borderPane.setCenter(challengeButton);
+                } else {
+                    Label label = new Label("Congrats! \n +5 Strength \n + 5 Dex \n +30 gold");
+                    borderPane.setCenter(label);
+                }
+
             } else {
                 setDoorsAndButtons(null);
                 gridPane.getChildren().clear();
