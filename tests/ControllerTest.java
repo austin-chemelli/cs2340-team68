@@ -20,6 +20,8 @@ public class ControllerTest extends ApplicationTest {
                     roomGrid[i][j] = new StartRoom();
                 } else if (i == 0 && j == 1) {
                     roomGrid[i][j] = new CombatRoom();
+                } else if (i == 1 && j == 0) {
+                    roomGrid[i][j] = new ChallengeRoom();
                 } else if (i == 3 && j == 3) {
                     roomGrid[i][j] = new BossRoom();
                 }  else if (i == 1 && j == 1) {
@@ -276,5 +278,37 @@ public class ControllerTest extends ApplicationTest {
         clickOn("#Potion0");
         clickOn("OK");
         assertEquals(10, controller.getPlayer().getGoldSpent());
+    }
+
+    @Test
+    public void testChallengeRoom() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("EAST exit");
+        clickOn("OK");
+        clickOn("Accept the challenge?");
+        clickOn("#card0");
+        verifyThat("Message", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testChallengeDoorsLock() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("EAST exit");
+        clickOn("OK");
+        clickOn("Accept the challenge?");
+        clickOn("EAST exit");
+        clickOn("WEST exit");
+        clickOn("NORTH exit");
+        clickOn("SOUTH exit");
+        clickOn("#card0");
+        verifyThat("Message", NodeMatchers.isNotNull());
     }
 }
