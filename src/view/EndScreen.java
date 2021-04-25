@@ -60,9 +60,11 @@ public class EndScreen {
         title.setAlignment(Pos.CENTER);
         top.getChildren().add(title);
 
-        Label statistics = new Label("Along your journey you:\ndefeated " + player.getEnemiesKilled()
-                + " enemies,\n" + "took " + player.getDamageTaken() + " damage,\nblocked " + player.getDamageBlocked()
-                + " damage,\n" + "and spent " + player.getGoldSpent() + " gold.");
+        Label statistics = new Label("Along your journey you:\ndefeated "
+                + player.getEnemiesKilled() + " enemies,\n" + "took "
+                + player.getDamageTaken() + " damage,\nblocked "
+                + player.getDamageBlocked() + " damage,\n" + "and spent "
+                + player.getGoldSpent() + " gold.");
         statistics.setFont(new Font("Georgia", 20));
         statistics.setTextAlignment(TextAlignment.CENTER);
         restart.setFont(new Font("Georgia", 25));

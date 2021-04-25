@@ -137,11 +137,14 @@ public class GameScreen {
     public void reset() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Game Over");
-        alert.setContentText("You have fallen.\nWill you keel over and die, or will you restart your journey?");
+        alert.setContentText("You have fallen.\nWill you keel over and die,"
+                + "or will you restart your journey?");
         alert.showAndWait();
-        Label statistics = new Label("Before your demise you:\ndefeated " + player.getEnemiesKilled()
-                + " enemies,\n" + "took " + player.getDamageTaken() + " damage,\nblocked " + player.getDamageBlocked()
-                + " damage,\n" + "and spent " + player.getGoldSpent() + " gold.");
+        Label statistics = new Label("Before your demise you:\ndefeated "
+                + player.getEnemiesKilled() + " enemies,\n" + "took "
+                + player.getDamageTaken() + " damage,\nblocked "
+                + player.getDamageBlocked() + " damage,\n" + "and spent "
+                + player.getGoldSpent() + " gold.");
         statistics.setFont(font);
         statistics.setTextAlignment(TextAlignment.CENTER);
         VBox vb = new VBox(20);
