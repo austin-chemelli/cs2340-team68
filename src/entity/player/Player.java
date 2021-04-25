@@ -28,6 +28,11 @@ public class Player extends Entity {
     // meta data-y stuff
     private PlayerConfig playerConfig;
 
+    private int enemiesKilled;
+    private int damageTaken;
+    private int damageBlocked;
+    private int goldSpent;
+
     private static Player instance;
 
     public Player(String name, int difficulty, String startingWeapon) {
@@ -54,6 +59,9 @@ public class Player extends Entity {
 
     public void addGold(int amount) {
         gold += amount;
+        if (amount < 0) {
+            goldSpent -= amount;
+        }
         if (gold < 0) {
             throw new RuntimeException("Player has a negative amount of gold!");
         }
@@ -155,6 +163,34 @@ public class Player extends Entity {
 
     public PlayerDeck getDeck() {
         return deck;
+    }
+
+    public void addKills() {
+        enemiesKilled++;
+    }
+
+    public void addDamageTaken(int d) {
+        damageTaken += d;
+    }
+
+    public void addDamageBlocked(int b) {
+        damageBlocked += b;
+    }
+
+    public int getEnemiesKilled() {
+        return enemiesKilled;
+    }
+
+    public int getDamageTaken() {
+        return damageTaken;
+    }
+
+    public int getDamageBlocked() {
+        return damageBlocked;
+    }
+
+    public int getGoldSpent() {
+        return goldSpent;
     }
 
 }

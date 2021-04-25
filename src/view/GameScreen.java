@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import util.Direction;
 import entity.player.Player;
 
@@ -40,7 +41,9 @@ public class GameScreen {
     private Button reset;
     private Button inventoryButton;
     private Button challengeButton;
+    private Button quitButton;
     private Button resetButton;
+    private Font font;
 
     public int getWidth() {
         return width;
@@ -58,6 +61,10 @@ public class GameScreen {
         return resetButton;
     }
 
+    public Button getQuitButton() {
+        return quitButton;
+    }
+
     public GameScreen(int w, int h, Player player, Dungeon d) {
         width = w;
         height = h;
@@ -67,6 +74,7 @@ public class GameScreen {
         gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         reset = new Button("Reset :(");
+        font = new Font("Georgia", 20);
     }
 
     public void setDoorsAndButtons(Direction d) {
@@ -129,12 +137,24 @@ public class GameScreen {
     public void reset() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Game Over");
-        alert.setContentText("You have died. Will you try again?");
+        alert.setContentText("You have fallen.\nWill you keel over and die, or will you restart your journey?");
         alert.showAndWait();
+        Label statistics = new Label("Before your demise you:\ndefeated " + player.getEnemiesKilled()
+                + " enemies,\n" + "took " + player.getDamageTaken() + " damage,\nblocked " + player.getDamageBlocked()
+                + " damage,\n" + "and spent " + player.getGoldSpent() + " gold.");
+        statistics.setFont(font);
+        statistics.setTextAlignment(TextAlignment.CENTER);
+        VBox vb = new VBox(20);
+        vb.setAlignment(Pos.CENTER);
+        HBox hb = new HBox(10);
+        hb.setAlignment(Pos.CENTER);
+        hb.getChildren().addAll(resetButton, quitButton);
+        vb.getChildren().addAll(statistics, hb);
         borderPane.getChildren().clear();
-        borderPane.setCenter(resetButton);
+        borderPane.setCenter(vb);
         inventoryButton.setVisible(false);
         resetButton.setVisible(true);
+        quitButton.setVisible(true);
     }
 
     //once player confirms action
@@ -331,16 +351,16 @@ public class GameScreen {
     public void updateInventoryUI() {
         Label attributeLabel = new Label("Health: " + player.getHealth()
                 + " ; Gold: " + player.getGold());
-        attributeLabel.setFont(new Font("Georgia", 20));
+        attributeLabel.setFont(font);
 
         Label statusesLabel = new Label(player.getStatuses().toString());
-        statusesLabel.setFont(new Font("Georgia", 20));
+        statusesLabel.setFont(font);
 
         HBox weapons = new HBox();
         for (int i = 0; i < player.getNumWeapons(); i++) {
             Weapon currWeapon = player.getWeapon(i);
             Button weaponButton = new Button("Weapon: " + currWeapon.getName());
-            weaponButton.setFont(new Font("Georgia", 20));
+            weaponButton.setFont(font);
             weaponButton.setOnAction(e -> {
                 player.setEquippedWeapon(currWeapon);
                 statusesLabel.setText(player.getStatuses().toString());
@@ -356,7 +376,7 @@ public class GameScreen {
             Item currItem = player.getItem(i);
             Button itemButton = new Button("Item: " + currItem.getName());
             itemButton.setId("item" + i);
-            itemButton.setFont(new Font("Georgia", 20));
+            itemButton.setFont(font);
             itemButton.setOnAction(e -> {
                 Action action;
                 if (currItem.getTargetType() == Target.SINGLE) {
@@ -383,7 +403,7 @@ public class GameScreen {
         items.setAlignment(Pos.CENTER);
 
         Button combatButton = new Button("Go back to combat");
-        combatButton.setFont(new Font("Georgia", 20));
+        combatButton.setFont(font);
         combatButton.setOnAction(e -> {
             updateCombatUI();
         });
@@ -524,15 +544,20 @@ public class GameScreen {
 
         Rectangle exitButtonRect = new Rectangle(75, 75, Color.GREEN);
 
-        exitButton = new Button("Exit", exitButtonRect);
+        exitButton = new Button("Exit Dungeon", exitButtonRect);
         exitButton.setTextFill(Color.BLACK);
         exitButton.setContentDisplay(ContentDisplay.CENTER);
         exitButton.setVisible(false);
 
+        quitButton = new Button("Quit Game");
+        quitButton.setTextFill(Color.BLACK);
+        quitButton.setContentDisplay(ContentDisplay.CENTER);
+        quitButton.setVisible(false);
+
         resetButton = new Button("Restart Dungeon");
-        exitButton.setTextFill(Color.BLACK);
-        exitButton.setContentDisplay(ContentDisplay.CENTER);
-        exitButton.setVisible(false);
+        resetButton.setTextFill(Color.BLACK);
+        resetButton.setContentDisplay(ContentDisplay.CENTER);
+        resetButton.setVisible(false);
 
         inventoryButton = new Button("Go to inventory");
         inventoryButton.setOnAction(e -> {

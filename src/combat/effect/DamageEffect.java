@@ -1,6 +1,7 @@
 package combat.effect;
 
 import entity.Entity;
+import entity.player.Player;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,9 @@ public class DamageEffect implements IEffect {
         int damage = calculateDamage();
         for (Entity e : entities) {
             e.takeDamage(damage);
+            if (e instanceof Player) {
+                ((Player) e).addDamageTaken(damage);
+            }
         }
     }
 

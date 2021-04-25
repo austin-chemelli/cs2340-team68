@@ -81,15 +81,23 @@ public class Controller extends Application {
         resetButton.setOnAction(actionEvent -> {
             restart();
         });
+        Button quitButton = gameScreen.getQuitButton();
+        quitButton.setOnAction(actionEvent -> {
+            System.exit(0);
+        });
         mainWindow.setScene(gameScene);
         mainWindow.show();
     }
 
     public void initEndScreen() {
-        EndScreen end = new EndScreen(width, height);
+        EndScreen end = new EndScreen(width, height, player);
         Button restartButton = end.getRestart();
         restartButton.setOnAction(actionEvent -> {
             restart();
+        });
+        Button quitButton = end.getQuit();
+        quitButton.setOnAction(actionEvent -> {
+            System.exit(0);
         });
         Scene scene = end.getScene();
         mainWindow.setScene(scene);
@@ -105,6 +113,10 @@ public class Controller extends Application {
         player = new Player(config.getName(),
                 config.getDifficultyAsInt(), config.getWeapon());
         initGameScreen();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
 

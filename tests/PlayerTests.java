@@ -155,4 +155,13 @@ public class PlayerTests extends ApplicationTest {
         assertEquals(pistolStrength, player.getStatuses().getStrength());
         assertEquals(pistolDex, player.getStatuses().getDex());
     }
+
+    @Test(timeout = TIMEOUT)
+    public void testPlayerStatistics() {
+        Player player = new Player("Test Name", 0, "pistol");
+        player.gainBlock(10);
+        player.takeDamage(20);
+        assertEquals(10, player.getDamageBlocked());
+        assertEquals(10, player.getDamageTaken());
+    }
 }

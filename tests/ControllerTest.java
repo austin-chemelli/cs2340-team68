@@ -4,10 +4,12 @@ import javafx.stage.Stage;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
-
+import static org.junit.Assert.*;
 import static org.testfx.api.FxAssert.verifyThat;
 
 public class ControllerTest extends ApplicationTest {
+
+    private Controller controller;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -27,7 +29,7 @@ public class ControllerTest extends ApplicationTest {
                 }
             }
         }
-        Controller controller = new Controller(roomGrid);
+        controller = new Controller(roomGrid);
         controller.start(stage);
     }
 
@@ -128,7 +130,7 @@ public class ControllerTest extends ApplicationTest {
         verifyThat("This door leads to nothing!", NodeMatchers.isNotNull());
     }
 
-    @Test
+    /**@Test
     public void testExitAppears() {
         clickOn("Start Game");
         clickOn("#nameField").write("Test name");
@@ -144,9 +146,9 @@ public class ControllerTest extends ApplicationTest {
             clickOn("OK");
         }
         verifyThat("Exit", NodeMatchers.isNotNull());
-    }
+    }**/
 
-    @Test
+    /**@Test
     public void testEndScreen() {
         clickOn("Start Game");
         clickOn("#nameField").write("Test name");
@@ -163,7 +165,7 @@ public class ControllerTest extends ApplicationTest {
         }
         clickOn("Exit");
         verifyThat("Congrats! You won.", NodeMatchers.isNotNull());
-    }
+    }**/
 
     @Test
     public void testCombatDoors() {
@@ -258,5 +260,21 @@ public class ControllerTest extends ApplicationTest {
         verifyThat("#item0", NodeMatchers.isNotNull());
         clickOn("#item0");
         verifyThat("Confirmation", NodeMatchers.isNotNull());
+    }
+
+    @Test
+    public void testSpendGold() {
+        clickOn("Start Game");
+        clickOn("#nameField").write("Test name");
+        clickOn("Set");
+        clickOn("Pistol");
+        clickOn("Next");
+        clickOn("EAST exit");
+        clickOn("OK");
+        clickOn("NORTH exit");
+        clickOn("OK");
+        clickOn("#Potion0");
+        clickOn("OK");
+        assertEquals(10, controller.getPlayer().getGoldSpent());
     }
 }

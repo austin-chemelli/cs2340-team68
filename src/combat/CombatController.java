@@ -62,6 +62,7 @@ public class CombatController {
             } else {
                 enemyDied = true;
                 deadEntities += e.getName();
+                player.addKills();
                 if (newEnemies.size() != i) {
                     deadEntities += ", ";
                 }

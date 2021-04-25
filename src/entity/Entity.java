@@ -1,5 +1,7 @@
 package entity;
 
+import entity.player.Player;
+
 public abstract class Entity {
     protected String name;
     protected int health;
@@ -16,8 +18,14 @@ public abstract class Entity {
     public void takeDamage(int amount) {
         if (block > 0) {
             if (block > amount) {
+                if (this instanceof Player) {
+                    ((Player) this).addDamageBlocked(amount);
+                }
                 block -= amount;
             } else {
+                if (this instanceof Player) {
+                    ((Player) this).addDamageBlocked(block);
+                }
                 gainHealth(-amount + block);
                 block = 0;
             }
@@ -27,8 +35,10 @@ public abstract class Entity {
     }
 
     public void gainHealth(int amount) {
+        if (this instanceof Player && amount < 0) {
+            ((Player) this).addDamageTaken(-amount);
+        }
         health += amount;
-
         if (health > maxHealth) {
             health = maxHealth;
         } else if (health <= 0) {

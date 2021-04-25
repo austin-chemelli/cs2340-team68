@@ -1,6 +1,7 @@
 package combat.effect;
 
 import entity.Entity;
+import entity.player.Player;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,9 @@ public class BlockEffect implements IEffect {
         int block = calculateBlock();
         for (Entity e : entities) {
             e.gainBlock(block);
+            if (e instanceof Player) {
+                ((Player) e).addDamageBlocked(block);
+            }
         }
     }
 
